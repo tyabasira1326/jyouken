@@ -3,139 +3,91 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>条</title>
+<title>条件</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
-body{font-family:'Helvetica Neue',Arial,sans-serif;background:#1a1a2e;color:#e0e0e0;min-height:100vh;overflow-x:hidden;}
+body{font-family:'Helvetica Neue',Arial,sans-serif;background:#1a1a2e;color:#e0e0e0;min-height:100vh;overflow-x:hidden;padding-bottom:20px;}
+h1{font-size:14px;letter-spacing:4px;color:#888;padding:8px 0 4px;text-align:center;}
 
-h1{font-size:13px;letter-spacing:4px;color:#888;padding:8px 0 4px;text-align:center;}
-
-/* ===== 表示エリア ===== */
-.disp-wrap{width:100%;padding:4px 8px;}
-
-/* 上段：上プレイヤー */
-.row-top{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:6px;
-  margin-bottom:6px;
-}
-
-/* 中段：左・矢印エリア・右 を均等3分割 */
-.row-mid{
-  display:flex;
-  flex-direction:row;
-  align-items:center;
-  justify-content:space-between;
-  width:100%;
-  margin-bottom:6px;
-}
-.mid-left{
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:4px;
-}
-.mid-center{
-  width:120px;
-  height:120px;
-  flex-shrink:0;
-  position:relative;
-}
-.mid-right{
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:4px;
-}
-
-/* 下段：視点プレイヤー */
-.row-bottom{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:6px;
-  margin-bottom:4px;
-}
-
-/* プレイヤー部品 */
-.p-inner{display:flex;align-items:center;gap:5px;}
-.p-num{
-  width:24px;height:24px;border-radius:50%;
-  background:#2a2a4a;border:1.5px solid #555;
-  font-size:12px;display:flex;align-items:center;justify-content:center;
-  color:#aaa;cursor:pointer;flex-shrink:0;
-}
-.p-num.active{background:#3a3a6a;border-color:#7a7aff;}
-.p-name{font-size:14px;color:#ccc;}
-.p-score{
-  border:1.5px solid #7a7aff;border-radius:6px;
-  padding:3px 10px;font-size:15px;font-weight:bold;
-  color:#a0c4ff;min-width:76px;text-align:center;
-}
-.p-view-name{font-size:15px;color:#7a7aff;font-weight:bold;}
-.p-view-label{font-size:10px;color:#555;}
-
-/* 矢印SVG */
-.arrow-svg{position:absolute;top:0;left:0;width:100%;height:100%;overflow:visible;}
-
-/* 点差ラベル */
-.dlabel{
-  position:absolute;font-size:9px;color:#777;
-  white-space:nowrap;background:#1a1a2e;padding:0 2px;
-}
-.dlabel.dl-top{top:2px;left:50%;transform:translateX(-50%);}
-.dlabel.dl-left{bottom:10px;left:-8px;}
-.dlabel.dl-right{bottom:10px;right:-8px;}
-
-/* ボタン行 */
-.btn-row{
-  display:flex;justify-content:space-between;
-  padding:4px 12px 6px;
-}
-.ac-btn{background:#2a1a1a;border:1.5px solid #a04040;color:#e08080;font-size:15px;font-weight:bold;border-radius:8px;padding:8px 22px;cursor:pointer;}
-.rotate-btn{background:#1a2a1a;border:1.5px solid #407040;color:#80c080;font-size:15px;font-weight:bold;border-radius:8px;padding:8px 22px;cursor:pointer;}
-
-/* 繰・持テーブル */
-.section{padding:2px 8px 6px;}
+/* ===== 繰エリア ===== */
+.section{padding:3px 8px 5px;}
 .sec-title{font-size:11px;color:#888;letter-spacing:2px;margin-bottom:3px;}
 .dtable{width:100%;border-collapse:collapse;}
-.dtable td{border:1px solid #2a2a4a;padding:4px 5px;font-size:13px;}
-.nc{width:20px;height:20px;border-radius:50%;border:1.5px solid #444;font-size:10px;display:inline-flex;align-items:center;justify-content:center;color:#888;}
-.nm{width:56px;color:#ccc;cursor:pointer;}
-.sc{color:#a0c4ff;cursor:pointer;text-align:right;min-width:72px;}
+.dtable td{border:1px solid #2a2a4a;padding:4px 4px;font-size:12px;}
+.nc{width:20px;height:20px;border-radius:50%;border:1.5px solid #444;font-size:10px;display:inline-flex;align-items:center;justify-content:center;color:#888;flex-shrink:0;}
+.nm{width:48px;color:#ccc;cursor:pointer;}
+.nm.sel{background:#2a2a5a;outline:2px solid #7a7aff;}
+.sc{color:#a0c4ff;cursor:pointer;text-align:right;min-width:64px;}
+.sc.sel{background:#2a2a5a;outline:2px solid #ffaa00;}
+.total-cell{color:#88ff88;text-align:right;min-width:64px;font-size:12px;}
+
+/* ===== 表示エリア ===== */
+.disp-wrap{width:100%;padding:4px 8px 2px;}
+
+.row-top{display:flex;justify-content:center;align-items:center;gap:6px;margin-bottom:4px;}
+
+.row-mid{display:flex;flex-direction:row;align-items:center;width:100%;margin-bottom:2px;}
+.mid-left{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;}
+.mid-center{width:110px;height:120px;flex-shrink:0;position:relative;}
+.mid-right{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;}
+
+.row-bottom{display:flex;justify-content:center;align-items:center;gap:6px;margin-bottom:4px;}
+
+.p-num{width:24px;height:24px;border-radius:50%;background:#2a2a4a;border:1.5px solid #555;font-size:12px;display:flex;align-items:center;justify-content:center;color:#aaa;cursor:pointer;flex-shrink:0;}
+.p-num.active{background:#3a3a6a;border-color:#7a7aff;}
+.p-name{font-size:13px;color:#ccc;}
+.p-score{border:1.5px solid #7a7aff;border-radius:6px;padding:2px 8px;font-size:14px;font-weight:bold;color:#a0c4ff;min-width:72px;text-align:center;}
+.p-view-name{font-size:18px;color:#7a7aff;font-weight:bold;}
+.p-view-label{font-size:10px;color:#555;}
+.p-inner{display:flex;align-items:center;gap:4px;}
+
+/* SVG */
+.arrow-svg{position:absolute;top:0;left:0;width:100%;height:100%;overflow:visible;}
+
+/* ボタン行 */
+.btn-row{display:flex;justify-content:space-between;padding:4px 12px 5px;}
+.ac-btn{background:#2a1a1a;border:1.5px solid #a04040;color:#e08080;font-size:14px;font-weight:bold;border-radius:8px;padding:7px 20px;cursor:pointer;}
+.rotate-btn{background:#1a2a1a;border:1.5px solid #407040;color:#80c080;font-size:14px;font-weight:bold;border-radius:8px;padding:7px 20px;cursor:pointer;}
+
+/* ===== 持差エリア ===== */
+.mochidiff-wrap{padding:3px 8px 5px;}
+.mochidiff-title{font-size:11px;color:#888;letter-spacing:2px;margin-bottom:3px;}
+.md-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto;gap:2px;width:100%;}
+.md-cell{border:1px solid #2a2a4a;padding:4px 6px;display:flex;align-items:center;gap:4px;min-height:44px;}
+.md-cell.tl{border:2px solid #7a7aff;}
+.md-num{width:22px;height:22px;border-radius:50%;border:1.5px solid #555;font-size:11px;display:flex;align-items:center;justify-content:center;color:#aaa;cursor:pointer;flex-shrink:0;}
+.md-num.sel-view{background:#3a3a6a;border-color:#7a7aff;}
+.md-name{font-size:12px;color:#ccc;flex:1;}
+.md-diff{font-size:13px;font-weight:bold;text-align:right;min-width:52px;}
+.md-diff.plus{color:#a0c4ff;}
+.md-diff.minus{color:#f08080;}
 
 /* キーパッド */
 .kp-ov{display:none;position:fixed;bottom:0;left:0;right:0;background:#0d0d1a;border-top:2px solid #333;padding:8px;z-index:100;}
 .kp-ov.on{display:block;}
 .kp-disp{background:#111;color:#a0c4ff;font-size:22px;text-align:right;padding:6px 14px;border-radius:6px;margin-bottom:8px;min-height:38px;}
 .kp-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
-.kb{background:#1e1e3a;border:1px solid #333;color:#e0e0e0;font-size:19px;padding:13px 0;border-radius:8px;cursor:pointer;text-align:center;user-select:none;}
+.kb{background:#1e1e3a;border:1px solid #333;color:#e0e0e0;font-size:19px;padding:12px 0;border-radius:8px;cursor:pointer;text-align:center;user-select:none;}
 .kb:active{background:#2a2a5a;}
-.kb-m{color:#f08080;}
-.kb-c{color:#e0c080;}
-.kb-ok{background:#1a3a1a !important;border-color:#407040 !important;color:#80c080;font-weight:bold;}
-.kb-d{color:#c0a0e0;}
+.kb-m{color:#f08080;}.kb-c{color:#e0c080;}.kb-ok{background:#1a3a1a !important;border-color:#407040 !important;color:#80c080;font-weight:bold;}.kb-d{color:#c0a0e0;}
 
 /* 名前KB */
 .nk-ov{display:none;position:fixed;bottom:0;left:0;right:0;background:#0d0d1a;border-top:2px solid #333;padding:8px;z-index:100;}
 .nk-ov.on{display:block;}
-.nk-disp{background:#111;color:#e0e0ff;font-size:18px;text-align:center;padding:6px;border-radius:6px;margin-bottom:6px;min-height:36px;letter-spacing:2px;}
-.nk-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-bottom:5px;}
-.nkb{background:#1e1e3a;border:1px solid #333;color:#e0e0e0;font-size:14px;padding:9px 0;border-radius:6px;cursor:pointer;text-align:center;user-select:none;}
+.nk-disp{background:#111;color:#e0e0ff;font-size:18px;text-align:center;padding:6px;border-radius:6px;margin-bottom:5px;min-height:36px;letter-spacing:2px;}
+.nk-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:3px;margin-bottom:4px;max-height:200px;overflow-y:auto;}
+.nkb{background:#1e1e3a;border:1px solid #333;color:#e0e0e0;font-size:13px;padding:8px 0;border-radius:5px;cursor:pointer;text-align:center;user-select:none;}
 .nkb:active{background:#2a2a5a;}
 .nk-ctrl{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;}
-.nkc{background:#1e1e3a;border:1px solid #333;color:#c0a0e0;font-size:14px;padding:10px 0;border-radius:6px;cursor:pointer;text-align:center;}
+.nkc{background:#1e1e3a;border:1px solid #333;color:#c0a0e0;font-size:14px;padding:9px 0;border-radius:6px;cursor:pointer;text-align:center;}
 .nkc.ok{background:#1a3a1a;border-color:#407040;color:#80c080;}
 
 /* 数字選択 */
 .np-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;align-items:center;justify-content:center;}
 .np-ov.on{display:flex;}
 .np-box{background:#1a1a2e;border:1px solid #444;border-radius:12px;padding:16px;display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.npb{background:#2a2a4a;border:1.5px solid #555;color:#e0e0e0;font-size:18px;padding:14px 28px;border-radius:8px;cursor:pointer;text-align:center;}
+.npb{background:#2a2a4a;border:1.5px solid #555;color:#e0e0e0;font-size:18px;padding:13px 26px;border-radius:8px;cursor:pointer;text-align:center;}
+.npb:active{background:#3a3a6a;}
 
 /* AC確認 */
 .ac-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:300;align-items:center;justify-content:center;}
@@ -148,103 +100,125 @@ h1{font-size:13px;letter-spacing:4px;color:#888;padding:8px 0 4px;text-align:cen
 </style>
 </head>
 <body>
-<h1>条</h1>
+<h1>条件</h1>
 
-<div class="disp-wrap">
-  <!-- 上プレイヤー -->
-  <div class="row-top">
-    <div class="p-num" id="num-top" onclick="openNP('top')">①</div>
-    <div class="p-name" id="name-top">やま</div>
-    <div class="p-score" id="score-top">+0.0</div>
-  </div>
-
-  <!-- 中段 -->
-  <div class="row-mid">
-    <!-- 左 -->
-    <div class="mid-left">
-      <div class="p-inner">
-        <div class="p-num" id="num-left" onclick="openNP('left')">②</div>
-        <div class="p-name" id="name-left">いの</div>
-      </div>
-      <div class="p-score" id="score-left">+0.0</div>
-    </div>
-
-    <!-- 中央矢印 -->
-    <div class="mid-center">
-      <svg class="arrow-svg" id="asvg" viewBox="0 0 120 120"></svg>
-      <div class="dlabel dl-top" id="d-top-lr"></div>
-      <div class="dlabel dl-left" id="d-left-bt"></div>
-      <div class="dlabel dl-right" id="d-right-bt"></div>
-    </div>
-
-    <!-- 右 -->
-    <div class="mid-right">
-      <div class="p-inner">
-        <div class="p-num" id="num-right" onclick="openNP('right')">④</div>
-        <div class="p-name" id="name-right">たな</div>
-      </div>
-      <div class="p-score" id="score-right">+0.0</div>
-    </div>
-  </div>
-
-  <!-- 下（視点） -->
-  <div class="row-bottom">
-    <div class="p-num active" id="num-bottom" onclick="openNP('bottom')">③</div>
-    <div class="p-view-name" id="name-bottom">すがí</div>
-    <div class="p-view-label">視点</div>
-  </div>
-</div>
-
-<!-- ボタン -->
-<div class="btn-row">
-  <button class="ac-btn" onclick="openAC()">AC</button>
-  <button class="rotate-btn" onclick="rotate()">回転</button>
-</div>
-
-<!-- 繰 -->
+<!-- ===== 繰エリア（一番上） ===== -->
 <div class="section">
   <div class="sec-title">繰</div>
   <table class="dtable">
     <tr>
       <td><span class="nc" id="kn0">①</span></td>
-      <td class="nm" id="kname0" onclick="openNK(0)">やま</td>
+      <td class="nm" id="kname0" onclick="openNK(0)">A</td>
       <td class="sc" id="ks0" onclick="openKP('kuri',0)">+0.0</td>
       <td><span class="nc" id="kn1">②</span></td>
-      <td class="nm" id="kname1" onclick="openNK(1)">いの</td>
+      <td class="nm" id="kname1" onclick="openNK(1)">B</td>
       <td class="sc" id="ks1" onclick="openKP('kuri',1)">+0.0</td>
+      <td class="total-cell" style="text-align:center;color:#aaa;font-size:11px;">計</td>
     </tr>
     <tr>
       <td><span class="nc" id="kn2">③</span></td>
-      <td class="nm" id="kname2" onclick="openNK(2)">すがí</td>
+      <td class="nm" id="kname2" onclick="openNK(2)">C</td>
       <td class="sc" id="ks2" onclick="openKP('kuri',2)">+0.0</td>
       <td><span class="nc" id="kn3">④</span></td>
-      <td class="nm" id="kname3" onclick="openNK(3)">たな</td>
+      <td class="nm" id="kname3" onclick="openNK(3)">D</td>
       <td class="sc" id="ks3" onclick="openKP('kuri',3)">+0.0</td>
+      <td class="total-cell" id="kuri-sum">+0.0</td>
     </tr>
   </table>
 </div>
 
-<!-- 持 -->
+<!-- ===== 表示エリア ===== -->
+<div class="disp-wrap">
+  <!-- 上 -->
+  <div class="row-top">
+    <div class="p-num" id="num-top" onclick="openNP('top')">①</div>
+    <div class="p-name" id="name-top">A</div>
+    <div class="p-score" id="score-top">+0.0</div>
+  </div>
+  <!-- 中段 -->
+  <div class="row-mid">
+    <div class="mid-left">
+      <div class="p-inner">
+        <div class="p-num" id="num-left" onclick="openNP('left')">②</div>
+        <div class="p-name" id="name-left">B</div>
+      </div>
+      <div class="p-score" id="score-left">+0.0</div>
+    </div>
+    <div class="mid-center">
+      <svg class="arrow-svg" id="asvg" viewBox="0 0 110 120"></svg>
+    </div>
+    <div class="mid-right">
+      <div class="p-inner">
+        <div class="p-num" id="num-right" onclick="openNP('right')">④</div>
+        <div class="p-name" id="name-right">D</div>
+      </div>
+      <div class="p-score" id="score-right">+0.0</div>
+    </div>
+  </div>
+  <!-- 下（視点） -->
+  <div class="row-bottom">
+    <div class="p-num active" id="num-bottom" onclick="openNP('bottom')">③</div>
+    <div class="p-view-name" id="name-bottom">C</div>
+    <div class="p-view-label">視点</div>
+  </div>
+</div>
+
+<!-- ボタン行 -->
+<div class="btn-row">
+  <button class="ac-btn" onclick="openAC()">AC</button>
+  <button class="rotate-btn" onclick="rotate()">回転</button>
+</div>
+
+<!-- ===== 持エリア ===== -->
 <div class="section">
   <div class="sec-title">持</div>
   <table class="dtable">
     <tr>
       <td><span class="nc" id="mn0">①</span></td>
-      <td class="nm" id="mname0">やま</td>
+      <td class="nm" id="mname0">A</td>
       <td class="sc" id="ms0" onclick="openKP('mochi',0)">+25.0</td>
       <td><span class="nc" id="mn1">②</span></td>
-      <td class="nm" id="mname1">いの</td>
+      <td class="nm" id="mname1">B</td>
       <td class="sc" id="ms1" onclick="openKP('mochi',1)">+25.0</td>
+      <td class="total-cell" style="text-align:center;color:#aaa;font-size:11px;">計</td>
     </tr>
     <tr>
       <td><span class="nc" id="mn2">③</span></td>
-      <td class="nm" id="mname2">すがí</td>
+      <td class="nm" id="mname2">C</td>
       <td class="sc" id="ms2" onclick="openKP('mochi',2)">+25.0</td>
       <td><span class="nc" id="mn3">④</span></td>
-      <td class="nm" id="mname3">たな</td>
+      <td class="nm" id="mname3">D</td>
       <td class="sc" id="ms3" onclick="openKP('mochi',3)">+25.0</td>
+      <td class="total-cell" id="mochi-sum">+100.0</td>
     </tr>
   </table>
+</div>
+
+<!-- ===== 持差エリア ===== -->
+<div class="mochidiff-wrap">
+  <div class="mochidiff-title">持差</div>
+  <div class="md-grid">
+    <div class="md-cell tl" id="md-tl">
+      <div class="md-num sel-view" id="md-num-tl" onclick="openMDPicker()">③</div>
+      <div class="md-name" id="md-name-tl">C</div>
+      <div class="md-diff" id="md-diff-tl"></div>
+    </div>
+    <div class="md-cell" id="md-tr">
+      <div class="md-num" id="md-num-tr">①</div>
+      <div class="md-name" id="md-name-tr">A</div>
+      <div class="md-diff plus" id="md-diff-tr">+0.0</div>
+    </div>
+    <div class="md-cell" id="md-bl">
+      <div class="md-num" id="md-num-bl">②</div>
+      <div class="md-name" id="md-name-bl">B</div>
+      <div class="md-diff plus" id="md-diff-bl">+0.0</div>
+    </div>
+    <div class="md-cell" id="md-br">
+      <div class="md-num" id="md-num-br">④</div>
+      <div class="md-name" id="md-name-br">D</div>
+      <div class="md-diff plus" id="md-diff-br">+0.0</div>
+    </div>
+  </div>
 </div>
 
 <!-- キーパッド -->
@@ -281,13 +255,23 @@ h1{font-size:13px;letter-spacing:4px;color:#888;padding:8px 0 4px;text-align:cen
   </div>
 </div>
 
-<!-- 数字選択 -->
+<!-- 数字選択（表示エリア用） -->
 <div class="np-ov" id="np-ov" onclick="closeNP()">
   <div class="np-box" onclick="event.stopPropagation()">
     <div class="npb" onclick="selNum(1)">①</div>
     <div class="npb" onclick="selNum(2)">②</div>
     <div class="npb" onclick="selNum(3)">③</div>
     <div class="npb" onclick="selNum(4)">④</div>
+  </div>
+</div>
+
+<!-- 持差視点選択 -->
+<div class="np-ov" id="md-np-ov" onclick="closeMDPicker()">
+  <div class="np-box" onclick="event.stopPropagation()">
+    <div class="npb" onclick="selMDView(1)">①</div>
+    <div class="npb" onclick="selMDView(2)">②</div>
+    <div class="npb" onclick="selMDView(3)">③</div>
+    <div class="npb" onclick="selMDView(4)">④</div>
   </div>
 </div>
 
@@ -303,25 +287,57 @@ h1{font-size:13px;letter-spacing:4px;color:#888;padding:8px 0 4px;text-align:cen
 </div>
 
 <script>
+// ===== 状態 =====
 let players=[
-  {name:'やま',kuri:0,mochi:25},
-  {name:'いの',kuri:0,mochi:25},
-  {name:'すがí',kuri:0,mochi:25},
-  {name:'たな',kuri:0,mochi:25},
+  {name:'A',kuri:0,mochi:25},
+  {name:'B',kuri:0,mochi:25},
+  {name:'C',kuri:0,mochi:25},
+  {name:'D',kuri:0,mochi:25},
 ];
-// positions[0]=top, [1]=left, [2]=right, [3]=bottom(視点)
+// positions[0]=top,[1]=left,[2]=right,[3]=bottom(視点)
 let pos=[0,1,3,2];
-let kpTgt=null,kpVal='';
-let nkTgt=null,nkCur='';
+let mdViewIdx=2; // 持差エリアの視点playerIndex
+
+let kpTgt=null, kpVal='';
+let nkTgt=null, nkCur='';
 let npPos=null;
+let selEl=null; // 現在選択中のDOM要素
 
-const KANA=['あ','い','う','え','お','か','き','く','け','こ','さ','し','す','せ','そ','た','ち','つ','て','と','な','に','ぬ','ね','の','は','ひ','ふ','へ','ほ','ま','み','む','め','も','や','ゆ','よ','ら','り','る','れ','ろ','わ','を','ん','ー','！','？'];
+// ===== localStorage =====
+function save(){
+  localStorage.setItem('jo_players',JSON.stringify(players));
+  localStorage.setItem('jo_pos',JSON.stringify(pos));
+  localStorage.setItem('jo_mdview',String(mdViewIdx));
+}
+function load(){
+  try{
+    let p=localStorage.getItem('jo_players');
+    let ps=localStorage.getItem('jo_pos');
+    let md=localStorage.getItem('jo_mdview');
+    if(p)players=JSON.parse(p);
+    if(ps)pos=JSON.parse(ps);
+    if(md)mdViewIdx=parseInt(md);
+  }catch(e){}
+}
 
-function ci(n){return['①','②','③','④'][n-1]||n;}
+// ===== ユーティリティ =====
+const CI=['①','②','③','④'];
+function ci(n){return CI[n-1]||n;}
 function fmt(v){let n=parseFloat(v)||0;return(n<0?'▲':'+')+Math.abs(n).toFixed(1);}
 function tot(i){return players[i].kuri+players[i].mochi;}
 
+// ===== 選択ハイライト =====
+function clearSel(){
+  if(selEl){selEl.classList.remove('sel');selEl=null;}
+}
+function setSel(el){
+  clearSel();
+  if(el){el.classList.add('sel');selEl=el;}
+}
+
+// ===== 全更新 =====
 function updateAll(){
+  // 繰・持テーブル
   for(let i=0;i<4;i++){
     document.getElementById('kn'+i).textContent=ci(i+1);
     document.getElementById('kname'+i).textContent=players[i].name;
@@ -330,9 +346,17 @@ function updateAll(){
     document.getElementById('mname'+i).textContent=players[i].name;
     document.getElementById('ms'+i).textContent=fmt(players[i].mochi);
   }
+  // 繰・持 4人合計
+  let kuriSum=players.reduce((a,p)=>a+p.kuri,0);
+  let mochiSum=players.reduce((a,p)=>a+p.mochi,0);
+  document.getElementById('kuri-sum').textContent=fmt(kuriSum);
+  document.getElementById('mochi-sum').textContent=fmt(mochiSum);
   updateDisp();
+  updateMochiDiff();
+  save();
 }
 
+// ===== 表示エリア =====
 function updateDisp(){
   const slots=['top','left','right','bottom'];
   slots.forEach((s,i)=>{
@@ -341,21 +365,12 @@ function updateDisp(){
     document.getElementById('name-'+s).textContent=players[pi].name;
   });
   let vT=tot(pos[3]);
-  // 視点との差
   ['top','left','right'].forEach((s,i)=>{
     let d=tot(pos[i])-vT;
     document.getElementById('score-'+s).textContent=fmt(d);
   });
-  // 2者間点差
+  // SVG矢印＋点差ラベル描画
   let tv=tot(pos[0]),lv=tot(pos[1]),rv=tot(pos[2]);
-  document.getElementById('d-top-lr').textContent='('+Math.abs(tv-(lv+rv)/2*0+lv).toFixed(1).replace(/\d+\.?\d*/,x=>'')+
-    // 上と左
-    '';
-  // シンプルに3ペア表示
-  document.getElementById('d-top-lr').textContent='('+Math.abs(lv-rv).toFixed(1)+')';
-  document.getElementById('d-left-bt').textContent='('+Math.abs(tv-lv).toFixed(1)+')';
-  document.getElementById('d-right-bt').textContent='('+Math.abs(tv-rv).toFixed(1)+')';
-
   drawArrows(tv,lv,rv);
 }
 
@@ -363,6 +378,8 @@ function drawArrows(tv,lv,rv){
   const svg=document.getElementById('asvg');
   svg.innerHTML='';
   const ns='http://www.w3.org/2000/svg';
+
+  // マーカー
   let defs=document.createElementNS(ns,'defs');
   let mk=document.createElementNS(ns,'marker');
   mk.setAttribute('id','ar');mk.setAttribute('markerWidth','7');mk.setAttribute('markerHeight','7');
@@ -371,41 +388,75 @@ function drawArrows(tv,lv,rv){
   mp.setAttribute('d','M0,0 L7,3.5 L0,7 Z');mp.setAttribute('fill','#7a7aff');
   mk.appendChild(mp);defs.appendChild(mk);svg.appendChild(defs);
 
-  // top=(60,8) left=(8,112) right=(112,112)
-  const P={top:[60,8],left:[8,112],right:[112,112]};
-  [[P.top,P.left,tv,lv],[P.top,P.right,tv,rv],[P.left,P.right,lv,rv]].forEach(([a,b,va,vb])=>{
-    if(Math.abs(va-vb)<0.05)return;
-    let f=va<vb?a:b, t=va<vb?b:a;
-    let dx=t[0]-f[0],dy=t[1]-f[1],len=Math.sqrt(dx*dx+dy*dy);
-    let ux=dx/len,uy=dy/len,mg=10;
-    let ln=document.createElementNS(ns,'line');
-    ln.setAttribute('x1',f[0]+ux*mg); ln.setAttribute('y1',f[1]+uy*mg);
-    ln.setAttribute('x2',t[0]-ux*12); ln.setAttribute('y2',t[1]-uy*12);
-    ln.setAttribute('stroke','#7a7aff');ln.setAttribute('stroke-width','2');
-    ln.setAttribute('marker-end','url(#ar)');
-    svg.appendChild(ln);
+  // viewBox="0 0 110 120"
+  // top=(55,5), left=(5,110), right=(105,110)
+  const P={top:[55,5],left:[5,110],right:[105,110]};
+  const pairs=[
+    {a:'top',b:'left',va:tv,vb:lv},
+    {a:'top',b:'right',va:tv,vb:rv},
+    {a:'left',b:'right',va:lv,vb:rv},
+  ];
+
+  pairs.forEach(({a,b,va,vb})=>{
+    let pa=P[a],pb=P[b];
+    let diff=Math.abs(va-vb).toFixed(1);
+
+    // 矢印
+    if(Math.abs(va-vb)>=0.05){
+      let f=va<vb?pa:pb, t=va<vb?pb:pa;
+      let dx=t[0]-f[0],dy=t[1]-f[1],len=Math.sqrt(dx*dx+dy*dy);
+      let ux=dx/len,uy=dy/len,mg=10;
+      let ln=document.createElementNS(ns,'line');
+      ln.setAttribute('x1',f[0]+ux*mg); ln.setAttribute('y1',f[1]+uy*mg);
+      ln.setAttribute('x2',t[0]-ux*13); ln.setAttribute('y2',t[1]-uy*13);
+      ln.setAttribute('stroke','#7a7aff');ln.setAttribute('stroke-width','2');
+      ln.setAttribute('marker-end','url(#ar)');
+      svg.appendChild(ln);
+    }
+
+    // 点差ラベル（矢印中間）
+    let mx=(pa[0]+pb[0])/2, my=(pa[1]+pb[1])/2;
+    let txt=document.createElementNS(ns,'text');
+    txt.setAttribute('x',mx);txt.setAttribute('y',my);
+    txt.setAttribute('text-anchor','middle');
+    txt.setAttribute('font-size','9');
+    txt.setAttribute('fill','#888888');
+    // 背景っぽく見せるためにstroke
+    txt.setAttribute('paint-order','stroke');
+    txt.setAttribute('stroke','#1a1a2e');
+    txt.setAttribute('stroke-width','3');
+    txt.textContent='('+diff+')';
+    svg.appendChild(txt);
   });
 }
 
-// 回転: 下→右, 右→上, 上→左, 左→下
+// 回転: 下→右,右→上,上→左,左→下
 function rotate(){
   let [t,l,r,b]=pos;
   pos=[r,t,b,l];
   updateDisp();
+  save();
 }
 
-// キーパッド
+// ===== キーパッド =====
 function openKP(type,idx){
+  clearSel();
+  let elId=type==='kuri'?'ks'+idx:'ms'+idx;
+  setSel(document.getElementById(elId));
   kpTgt={type,idx};
-  let cur=type==='kuri'?players[idx].kuri:players[idx].mochi;
-  kpVal=cur===0?'':(cur<0?'▲'+Math.abs(cur).toFixed(1):''+cur.toFixed(1));
-  document.getElementById('kp-disp').textContent=kpVal||'0';
+  kpVal=''; // 常に0からスタート
+  document.getElementById('kp-disp').textContent='0';
   document.getElementById('kp-ov').classList.add('on');
 }
 function kpIn(c){
   if(c==='▲'){kpVal=kpVal.startsWith('▲')?kpVal.slice(1):'▲'+kpVal;}
   else if(c==='.'){if(!kpVal.replace('▲','').includes('.'))kpVal+=c;}
-  else kpVal+=c;
+  else{
+    // 先頭0を削除
+    if(kpVal===''||kpVal==='0')kpVal=(c==='0'?'0':c);
+    else if(kpVal==='▲0')kpVal='▲'+(c==='0'?'0':c);
+    else kpVal+=c;
+  }
   document.getElementById('kp-disp').textContent=kpVal||'0';
 }
 function kpDel(){kpVal=kpVal.slice(0,-1);document.getElementById('kp-disp').textContent=kpVal||'0';}
@@ -418,22 +469,56 @@ function kpOK(){
   if(kpTgt.type==='kuri')players[kpTgt.idx].kuri=num;
   else players[kpTgt.idx].mochi=num;
   document.getElementById('kp-ov').classList.remove('on');
+  clearSel();
   kpTgt=null;kpVal='';
   updateAll();
 }
 
-// 名前KB
+// ===== 名前KB =====
+const KANA_ROWS=[
+  ['あ','い','う','え','お'],
+  ['か','き','く','け','こ'],
+  ['さ','し','す','せ','そ'],
+  ['た','ち','つ','て','と'],
+  ['な','に','ぬ','ね','の'],
+  ['は','ひ','ふ','へ','ほ'],
+  ['ま','み','む','め','も'],
+  ['や','ゆ','よ','ら','り'],
+  ['る','れ','ろ','わ','を'],
+  ['ん','ー','！','？','　'],
+  // 濁音
+  ['が','ぎ','ぐ','げ','ご'],
+  ['ざ','じ','ず','ぜ','ぞ'],
+  ['だ','ぢ','づ','で','ど'],
+  ['ば','び','ぶ','べ','ぼ'],
+  // 半濁音
+  ['ぱ','ぴ','ぷ','ぺ','ぽ'],
+  // 小文字
+  ['ぁ','ぃ','ぅ','ぇ','ぉ'],
+  ['っ','ゃ','ゅ','ょ','・'],
+];
 function buildNK(){
   let g=document.getElementById('nk-grid');g.innerHTML='';
-  KANA.forEach(k=>{
-    let d=document.createElement('div');d.className='nkb';d.textContent=k;
-    d.onclick=()=>{if(nkCur.length<3){nkCur+=k;document.getElementById('nk-disp').textContent=nkCur;}};
-    g.appendChild(d);
+  KANA_ROWS.forEach(row=>{
+    row.forEach(k=>{
+      let d=document.createElement('div');d.className='nkb';
+      d.textContent=k==='　'?'空白':k;
+      d.onclick=()=>{
+        let c=k==='　'?' ':k;
+        if(nkCur.replace(/ /g,'').length<3||(nkCur.length<3)){
+          nkCur+=c;
+          document.getElementById('nk-disp').textContent=nkCur;
+        }
+      };
+      g.appendChild(d);
+    });
   });
 }
 function openNK(idx){
-  nkTgt=idx;nkCur=players[idx].name;
-  document.getElementById('nk-disp').textContent=nkCur;
+  clearSel();
+  setSel(document.getElementById('kname'+idx));
+  nkTgt=idx;nkCur='';// 常に空からスタート
+  document.getElementById('nk-disp').textContent='';
   buildNK();
   document.getElementById('nk-ov').classList.add('on');
 }
@@ -443,10 +528,11 @@ function nkOK(){
   if(nkTgt===null)return;
   if(nkCur.trim())players[nkTgt].name=nkCur.trim();
   document.getElementById('nk-ov').classList.remove('on');
+  clearSel();
   nkTgt=null;updateAll();
 }
 
-// 数字選択
+// ===== 数字選択（表示エリア） =====
 function openNP(p){npPos=p;document.getElementById('np-ov').classList.add('on');}
 function closeNP(){document.getElementById('np-ov').classList.remove('on');npPos=null;}
 function selNum(n){
@@ -456,23 +542,61 @@ function selNum(n){
   let si=pos.indexOf(newPi);
   if(si>=0)pos[si]=oldPi;
   pos[pi]=newPi;
-  closeNP();updateDisp();
+  closeNP();updateDisp();save();
 }
 
-// AC
+// ===== 持差エリア =====
+function updateMochiDiff(){
+  let vIdx=mdViewIdx;
+  let vM=players[vIdx].mochi;
+
+  // 視点セル
+  document.getElementById('md-num-tl').textContent=ci(vIdx+1);
+  document.getElementById('md-name-tl').textContent=players[vIdx].name;
+
+  // 残り3名を持P降順でソート
+  let others=[0,1,2,3].filter(i=>i!==vIdx);
+  others.sort((a,b)=>players[b].mochi-players[a].mochi);
+
+  const slots=['tr','bl','br'];
+  slots.forEach((s,i)=>{
+    let pi=others[i];
+    let diff=players[pi].mochi-vM;
+    let dEl=document.getElementById('md-diff-'+s);
+    document.getElementById('md-num-'+s).textContent=ci(pi+1);
+    document.getElementById('md-name-'+s).textContent=players[pi].name;
+    dEl.textContent=fmt(diff);
+    dEl.className='md-diff '+(diff>=0?'plus':'minus');
+  });
+}
+function openMDPicker(){document.getElementById('md-np-ov').classList.add('on');}
+function closeMDPicker(){document.getElementById('md-np-ov').classList.remove('on');}
+function selMDView(n){
+  mdViewIdx=n-1;
+  closeMDPicker();
+  updateMochiDiff();
+  save();
+}
+
+// ===== AC =====
 function openAC(){document.getElementById('ac-ov').classList.add('on');}
 function closeAC(){document.getElementById('ac-ov').classList.remove('on');}
 function doAC(){
   players=[
-    {name:'やま',kuri:0,mochi:25},
-    {name:'いの',kuri:0,mochi:25},
-    {name:'すがí',kuri:0,mochi:25},
-    {name:'たな',kuri:0,mochi:25},
+    {name:'A',kuri:0,mochi:25},
+    {name:'B',kuri:0,mochi:25},
+    {name:'C',kuri:0,mochi:25},
+    {name:'D',kuri:0,mochi:25},
   ];
   pos=[0,1,3,2];
-  closeAC();updateAll();
+  mdViewIdx=2;
+  closeAC();
+  clearSel();
+  updateAll();
 }
 
+// ===== 初期化 =====
+load();
 buildNK();
 updateAll();
 </script>
