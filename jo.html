@@ -366,7 +366,7 @@ function updateDisp(){
   });
   let vT=tot(pos[3]);
   ['top','left','right'].forEach((s,i)=>{
-    let d=tot(pos[i])-vT;
+    let d=vT-tot(pos[i]);
     document.getElementById('score-'+s).textContent=fmt(d);
   });
   // SVG矢印＋点差ラベル描画
@@ -561,7 +561,7 @@ function updateMochiDiff(){
   const slots=['tr','bl','br'];
   slots.forEach((s,i)=>{
     let pi=others[i];
-    let diff=players[pi].mochi-vM;
+    let diff=vM-players[pi].mochi;
     let dEl=document.getElementById('md-diff-'+s);
     document.getElementById('md-num-'+s).textContent=ci(pi+1);
     document.getElementById('md-name-'+s).textContent=players[pi].name;
