@@ -19,8 +19,8 @@ h1{text-align:center;font-size:18px;padding:10px 0 6px;letter-spacing:2px;}
 .kt .lbl{font-size:11px;color:var(--dim);width:22px;}
 .kt .sum{color:var(--pos);font-size:13px;}
 .neg{color:var(--neg);}.pos{color:var(--pos);}.zer{color:var(--dim);}
+.mk-btn{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:var(--bg3);border:1.5px solid var(--acc);color:var(--acc);font-size:13px;cursor:pointer;user-select:none;}
 .display-area{padding:4px 10px 6px;}
-.tri-wrap{width:100%;display:flex;flex-direction:column;align-items:center;gap:2px;}
 .score-box{border:2px solid var(--acc);border-radius:6px;padding:3px 8px;text-align:center;min-width:80px;}
 .btn-row{display:flex;justify-content:space-between;padding:6px 8px 8px;gap:8px;}
 .btn-ac{background:var(--red);color:#fff;border:none;border-radius:8px;font-size:16px;font-weight:bold;padding:10px 0;flex:1;cursor:pointer;}
@@ -29,13 +29,15 @@ h1{text-align:center;font-size:18px;padding:10px 0 6px;letter-spacing:2px;}
 .jt{width:100%;border-collapse:collapse;table-layout:fixed;font-size:12px;}
 .jt td{border:1px solid var(--bdr);padding:3px 2px;text-align:center;vertical-align:middle;}
 .jt .rl{text-align:left;padding-left:5px;font-size:10px;color:var(--dim);width:54px;background:var(--bg2);}
+.jt .sc{width:36px;background:var(--bg2);font-size:11px;}
 .jt .inp{cursor:pointer;}
-.jt .hr td{background:var(--bg3);font-size:11px;}
-.jt .hr .rl{background:var(--bg3);}
+.jt tr.hr td{background:var(--bg3);font-size:11px;}
+.jt tr.hr .rl{background:var(--bg3);}
 .jt .rc{display:flex;flex-direction:column;align-items:center;line-height:1.3;}
 .jt .sh{background:#1a2040;font-size:10px;color:var(--dim);text-align:left;padding-left:6px;}
 .jt .ml{font-size:10px;color:var(--dim);background:var(--bg2);width:30px;}
 .rnk{font-size:11px;color:var(--acc);}
+.paren{color:#f0c040;}
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;display:none;}
 .overlay.on{display:block;}
 .padwrap{position:fixed;bottom:0;left:0;right:0;background:#222240;border-top:2px solid var(--acc);z-index:101;display:none;padding:8px;border-radius:16px 16px 0 0;}
@@ -56,10 +58,12 @@ h1{text-align:center;font-size:18px;padding:10px 0 6px;letter-spacing:2px;}
 .kab.ok{background:var(--acc);color:#fff;border-color:var(--acc);}
 .popup{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:200;display:none;align-items:center;justify-content:center;}
 .popup.on{display:flex;}
-.popup-in{background:#222240;border-radius:12px;padding:16px;min-width:200px;}
+.popup-in{background:#222240;border-radius:12px;padding:16px;min-width:220px;}
 .poptit{font-size:13px;color:var(--dim);text-align:center;margin-bottom:10px;}
 .popgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-.popbtn{background:var(--bg3);color:var(--text);border:1px solid var(--bdr);border-radius:8px;font-size:18px;padding:14px;cursor:pointer;text-align:center;}
+.popbtn{background:var(--bg3);color:var(--text);border:1px solid var(--bdr);border-radius:8px;padding:14px 8px;cursor:pointer;text-align:center;display:flex;flex-direction:column;align-items:center;gap:4px;}
+.pop-mk{font-size:20px;color:var(--acc);}
+.pop-nm{font-size:12px;}
 .dlg{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:200;display:none;align-items:center;justify-content:center;}
 .dlg.on{display:flex;}
 .dlg-in{background:#222240;border-radius:12px;padding:20px 16px;min-width:240px;}
@@ -80,7 +84,6 @@ h1{text-align:center;font-size:18px;padding:10px 0 6px;letter-spacing:2px;}
 </div>
 <div class="sec-lbl">条件</div>
 <div class="jtsec"><table class="jt" id="jt"></table></div>
-
 <div class="overlay" id="ov" onclick="closePad()"></div>
 <div class="padwrap" id="pw">
   <div class="paddisp" id="pd">0</div>
@@ -89,32 +92,29 @@ h1{text-align:center;font-size:18px;padding:10px 0 6px;letter-spacing:2px;}
     <button class="pb" onclick="pN('7')">7</button><button class="pb" onclick="pN('8')">8</button><button class="pb" onclick="pN('9')">9</button>
     <button class="pb cl" onclick="pC()">C</button>
     <button class="pb" onclick="pN('4')">4</button><button class="pb" onclick="pN('5')">5</button><button class="pb" onclick="pN('6')">6</button>
-    <button class="pb" onclick="pBs()">⌫</button>
+    <button class="pb" onclick="pBs()">&#x232B;</button>
     <button class="pb" onclick="pN('1')">1</button><button class="pb" onclick="pN('2')">2</button><button class="pb" onclick="pN('3')">3</button>
     <button class="pb" onclick="pDot()">.</button>
     <button class="pb" onclick="pN('0')">0</button><button class="pb" onclick="pN('00')">00</button>
     <button class="pb ok" onclick="pOK()">OK</button>
   </div>
 </div>
-
 <div class="overlay" id="kov" onclick="closeKana()"></div>
 <div class="kanawrap" id="kw">
   <div class="kanadisp" id="kd"></div>
   <div class="kanagrid" id="kg"></div>
   <div class="kana-act">
     <button class="kab" onclick="kC()">C</button>
-    <button class="kab" onclick="kBs()">⌫</button>
+    <button class="kab" onclick="kBs()">&#x232B;</button>
     <button class="kab ok" onclick="kOK()">OK</button>
   </div>
 </div>
-
 <div class="popup" id="spp" onclick="closeSP()">
   <div class="popup-in" onclick="event.stopPropagation()">
     <div class="poptit" id="spt"></div>
     <div class="popgrid" id="spg"></div>
   </div>
 </div>
-
 <div class="dlg" id="acd">
   <div class="dlg-in">
     <div class="dlg-msg">全データを消去しますか？</div>
@@ -124,17 +124,14 @@ h1{text-align:center;font-size:18px;padding:10px 0 6px;letter-spacing:2px;}
     </div>
   </div>
 </div>
-
 <script>
 const MK=['①','②','③','④'];
 const RP=[50,10,-10,-30];
 let players=[{name:'A',kuriP:0},{name:'B',kuriP:0},{name:'C',kuriP:0},{name:'D',kuriP:0}];
 let pos=[0,1,2,3];
 let cP=[0,0,0,0],sz=[0,0,0,0];
-
-function save(){try{localStorage.setItem('jk3',JSON.stringify({players,pos,cP,sz}));}catch(e){}}
-function load(){try{const d=JSON.parse(localStorage.getItem('jk3'));if(!d)return;if(d.players)players=d.players;if(d.pos)pos=d.pos;if(d.cP)cP=d.cP;if(d.sz)sz=d.sz;}catch(e){}}
-
+function save(){try{localStorage.setItem('jk4',JSON.stringify({players,pos,cP,sz}));}catch(e){}}
+function load(){try{const d=JSON.parse(localStorage.getItem('jk4'));if(!d)return;if(d.players)players=d.players;if(d.pos)pos=d.pos;if(d.cP)cP=d.cP;if(d.sz)sz=d.sz;}catch(e){}}
 function rankOf(arr,i){return arr.filter(v=>v>arr[i]).length;}
 function calcJP(results){
   return results.map((v,i)=>{
@@ -144,7 +141,6 @@ function calcJP(results){
 }
 function flr(x,sig){return Math.floor(x/sig)*sig;}
 function sm(arr,n){return [...arr].sort((a,b)=>a-b)[n-1];}
-
 function calc(){
   const j=pos[0],h=pos[1],t=pos[2],m=pos[3],p4=[j,h,t,m];
   const kt=players.map((_,i)=>cP[i]+sz[i]);
@@ -164,74 +160,52 @@ function calc(){
   const om=ro.map(rp=>p4.map(cp=>kt[cp]-kt[rp]));
   return{kt,cR,kR,jp,kuK,soS,juJ,gk,ts,ron,tps,om,ro,rl,p4};
 }
-
-function fm(v,d=1){if(isNaN(v)||v===null)return'－';const a=Math.abs(v).toFixed(d);return v<-1e-5?'▲'+a:'+'+a;}
+function fm(v,d=1){if(isNaN(v)||v===null)return'―';const a=Math.abs(v).toFixed(d);return v<-1e-5?'▲'+a:'+'+a;}
 function fc(v){return v<-1e-5?'neg':v>1e-5?'pos':'zer';}
-function fs(v,d=1){return`<span class="${fc(v)}">${fm(v,d)}</span>`;}
-
-function renderKuri(){
-  const ksum=players.reduce((a,p)=>a+p.kuriP,0);
-  document.getElementById('kt').innerHTML=`
-  <tr>
-    <td class="maru">${MK[0]}</td><td class="name" onclick="opK(0)">${players[0].name}</td>
-    <td class="val" onclick="opP('kp',0)">${fs(players[0].kuriP)}</td>
-    <td class="maru">${MK[1]}</td><td class="name" onclick="opK(1)">${players[1].name}</td>
-    <td class="val" onclick="opP('kp',1)">${fs(players[1].kuriP)}</td>
-    <td class="lbl">計</td>
-  </tr><tr>
-    <td class="maru">${MK[2]}</td><td class="name" onclick="opK(2)">${players[2].name}</td>
-    <td class="val" onclick="opP('kp',2)">${fs(players[2].kuriP)}</td>
-    <td class="maru">${MK[3]}</td><td class="name" onclick="opK(3)">${players[3].name}</td>
-    <td class="val" onclick="opP('kp',3)">${fs(players[3].kuriP)}</td>
-    <td class="sum">${fs(ksum)}</td>
-  </tr>`;
+function fs(v,d=1){return'<span class="'+fc(v)+'">'+fm(v,d)+'</span>';}
+function fmOchi(v){
+  if(isNaN(v)||v===null)return'<span class="zer">―</span>';
+  if(v>1e-5)return'<span class="pos">'+fm(v)+'</span>';
+  if(Math.abs(v)<1e-5)return'<span class="zer">+0.0</span>';
+  const abs=Math.abs(v);
+  if(abs>=0.1&&abs<=16)return'<span class="paren">(▲'+abs.toFixed(1)+')</span>';
+  return'<span class="neg">▲'+abs.toFixed(1)+'</span>';
 }
-
+function renderKuri(){
+  const ks=players.reduce((a,p)=>a+p.kuriP,0);
+  document.getElementById('kt').innerHTML=
+  '<tr><td class="maru">'+MK[0]+'</td><td class="name" onclick="opK(0)">'+players[0].name+'</td><td class="val" onclick="opP('kp',0)">'+fs(players[0].kuriP)+'</td>'+
+  '<td class="maru">'+MK[1]+'</td><td class="name" onclick="opK(1)">'+players[1].name+'</td><td class="val" onclick="opP('kp',1)">'+fs(players[1].kuriP)+'</td><td class="lbl">計</td></tr>'+
+  '<tr><td class="maru">'+MK[2]+'</td><td class="name" onclick="opK(2)">'+players[2].name+'</td><td class="val" onclick="opP('kp',2)">'+fs(players[2].kuriP)+'</td>'+
+  '<td class="maru">'+MK[3]+'</td><td class="name" onclick="opK(3)">'+players[3].name+'</td><td class="val" onclick="opP('kp',3)">'+fs(players[3].kuriP)+'</td><td class="sum">'+fs(ks)+'</td></tr>';
+}
 function renderTri(){
   const j=pos[0],h=pos[1],t=pos[2],m=pos[3];
   const kv=players.map(p=>p.kuriP);
   const kd=o=>players[j].kuriP-players[o].kuriP;
   const ca=(a,b)=>Math.abs(players[a].kuriP-players[b].kuriP).toFixed(1);
   const kr=p=>MK[rankOf(kv,p)];
-  document.getElementById('da').innerHTML=`
-  <div class="tri-wrap" style="padding:8px 4px">
-    <div style="display:flex;align-items:center;justify-content:center;gap:6px">
-      <div style="display:flex;flex-direction:column;align-items:center">
-        <div style="display:flex;align-items:center;gap:5px;margin-bottom:3px">
-          <span style="font-size:14px;color:var(--acc);cursor:pointer" onclick="opSP(2)">${MK[t]}</span>
-          <span style="font-size:14px">${players[t].name}</span>
-        </div>
-        <div class="score-box"><span style="font-size:11px;color:var(--dim);margin-right:4px">${kr(t)}</span>${fs(kd(t))}</div>
-      </div>
-    </div>
-    <div style="display:flex;align-items:center;justify-content:space-between;width:100%;padding:0 4px;position:relative;height:80px">
-      <div style="display:flex;flex-direction:column;align-items:center">
-        <div style="display:flex;align-items:center;gap:4px;margin-bottom:3px">
-          <span style="font-size:14px;color:var(--acc);cursor:pointer" onclick="opSP(1)">${MK[h]}</span>
-          <span style="font-size:14px">${players[h].name}</span>
-        </div>
-        <div class="score-box">${fs(kd(h))}</div>
-      </div>
-      <svg viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg" style="position:absolute;top:0;left:0;width:100%;height:80px;pointer-events:none">
-        <defs><marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#7a7aff"/></marker></defs>
-        ${arw(t,h,100,5,30,42,ca(t,h),62,18)}
-        ${arw(t,m,100,5,170,42,ca(t,m),143,18)}
-        ${arw(h,m,30,42,170,42,ca(h,m),100,36)}
-      </svg>
-      <div style="display:flex;flex-direction:column;align-items:center">
-        <div style="display:flex;align-items:center;gap:4px;margin-bottom:3px">
-          <span style="font-size:14px;color:var(--acc);cursor:pointer" onclick="opSP(3)">${MK[m]}</span>
-          <span style="font-size:14px">${players[m].name}</span>
-        </div>
-        <div class="score-box">${fs(kd(m))}</div>
-      </div>
-    </div>
-    <div style="display:flex;align-items:center;justify-content:center;gap:6px;padding-bottom:2px">
-      <span style="font-size:16px;color:var(--acc);cursor:pointer" onclick="opSP(0)">${MK[j]}</span>
-      <span style="font-size:16px;font-weight:bold">${players[j].name}</span>
-      <span style="font-size:10px;color:var(--dim)">視点</span>
-    </div>
-  </div>`;
+  const mkB=(pi,pli)=>'<span class="mk-btn" onclick="opSP('+pli+')">'+MK[pi]+'</span>';
+  document.getElementById('da').innerHTML=
+  '<div style="width:100%;display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 4px">'+
+  '<div style="display:flex;align-items:center;justify-content:center;gap:6px">'+
+  '<div style="display:flex;flex-direction:column;align-items:center">'+
+  '<div style="display:flex;align-items:center;gap:5px;margin-bottom:3px">'+mkB(t,2)+'<span style="font-size:14px">'+players[t].name+'</span></div>'+
+  '<div class="score-box"><span style="font-size:11px;color:var(--dim);margin-right:4px">'+kr(t)+'</span>'+fs(kd(t))+'</div></div></div>'+
+  '<div style="display:flex;align-items:center;justify-content:space-between;width:100%;padding:0 4px;position:relative;height:80px">'+
+  '<div style="display:flex;flex-direction:column;align-items:center">'+
+  '<div style="display:flex;align-items:center;gap:4px;margin-bottom:3px">'+mkB(h,1)+'<span style="font-size:14px">'+players[h].name+'</span></div>'+
+  '<div class="score-box">'+fs(kd(h))+'</div></div>'+
+  '<svg viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg" style="position:absolute;top:0;left:0;width:100%;height:80px;pointer-events:none">'+
+  '<defs><marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#7a7aff"/></marker></defs>'+
+  arw(t,h,100,5,30,42,ca(t,h),62,18)+arw(t,m,100,5,170,42,ca(t,m),143,18)+arw(h,m,30,42,170,42,ca(h,m),100,36)+
+  '</svg>'+
+  '<div style="display:flex;flex-direction:column;align-items:center">'+
+  '<div style="display:flex;align-items:center;gap:4px;margin-bottom:3px">'+mkB(m,3)+'<span style="font-size:14px">'+players[m].name+'</span></div>'+
+  '<div class="score-box">'+fs(kd(m))+'</div></div></div>'+
+  '<div style="display:flex;align-items:center;justify-content:center;gap:6px;padding-bottom:2px">'+
+  mkB(j,0)+'<span style="font-size:16px;font-weight:bold">'+players[j].name+'</span>'+
+  '<span style="font-size:10px;color:var(--dim)">視点</span></div></div>';
 }
 function arw(fp,tp,x1,y1,x2,y2,lbl,lx,ly){
   const a=players[fp].kuriP,b=players[tp].kuriP;
@@ -239,31 +213,54 @@ function arw(fp,tp,x1,y1,x2,y2,lbl,lx,ly){
   let ax1=x1,ay1=y1,ax2=x2,ay2=y2;
   if(a>b){ax1=x2;ay1=y2;ax2=x1;ay2=y1;}
   const dx=ax2-ax1,dy=ay2-ay1,l=Math.sqrt(dx*dx+dy*dy)||1,nx=dx/l,ny=dy/l;
-  return`<line x1="${(ax1+nx*16).toFixed(1)}" y1="${(ay1+ny*16).toFixed(1)}" x2="${(ax2-nx*16).toFixed(1)}" y2="${(ay2-ny*16).toFixed(1)}" stroke="#7a7aff" stroke-width="1.5" marker-end="url(#ar)"/><text x="${lx}" y="${ly}" fill="#aaa" font-size="9" text-anchor="middle">(${lbl})</text>`;
+  return'<line x1="'+(ax1+nx*16).toFixed(1)+'" y1="'+(ay1+ny*16).toFixed(1)+'" x2="'+(ax2-nx*16).toFixed(1)+'" y2="'+(ay2-ny*16).toFixed(1)+'" stroke="#7a7aff" stroke-width="1.5" marker-end="url(#ar)"/><text x="'+lx+'" y="'+ly+'" fill="#aaa" font-size="9" text-anchor="middle">('+lbl+')</text>';
 }
-
 function renderJT(){
   const c=calc(),p4=c.p4,pl=['自','左','対','右'];
-  let h=`<tr class="hr"><td class="rl">名前・親</td>${p4.map((p,i)=>`<td><div style="font-size:9px;color:var(--dim)">${pl[i]}</div><div style="font-size:12px">${players[p].name}</div></td>`).join('')}</tr>`;
-  h+=`<tr><td class="rl">着・P</td>${p4.map(p=>`<td class="inp" onclick="opP('cp',${p})"><div class="rc"><span class="rnk">${MK[c.cR[p]]}</span><span class="${fc(cP[p])}">${fm(cP[p])}</span></div></td>`).join('')}</tr>`;
-  h+=`<tr><td class="rl">試算</td>${p4.map(p=>`<td class="inp" onclick="opP('sz',${p})"><span class="${fc(sz[p])}">${fm(sz[p])}</span></td>`).join('')}</tr>`;
-  h+=`<tr><td class="rl">結果</td>${p4.map(p=>`<td><div class="rc"><span class="rnk">${MK[c.kR[p]]}</span><span class="${fc(c.kt[p])}">${fm(c.kt[p])}</span></div></td>`).join('')}</tr>`;
-  h+=`<tr><td class="rl">ツモ条件</td><td colspan="4" style="text-align:left;padding:4px 5px;font-size:11px">対子&nbsp;${fs(c.ts.tk)}&nbsp;&nbsp;対親&nbsp;${fs(c.ts.to)}&nbsp;&nbsp;自親&nbsp;${fs(c.ts.jo)}</td></tr>`;
-  h+=`<tr><td class="rl">ロン</td><td colspan="4">${fs(c.ron)}</td></tr>`;
-  h+=`<tr><td class="rl">トップ素点</td>${c.tps.map(v=>`<td><span class="${fc(v)}">${fm(v)}</span></td>`).join('')}</tr>`;
-  h+=`<tr><td colspan="5" class="sh">着落ち素点</td></tr>`;
-  h+=`<tr><td class="ml" style="background:var(--bg3)"></td>${pl.map(l=>`<td style="font-size:10px;color:var(--dim);background:var(--bg3)">${l}</td>`).join('')}</tr>`;
+  const cpS=p4.reduce((a,p)=>a+cP[p],0);
+  const szS=p4.reduce((a,p)=>a+sz[p],0);
+  const ktS=p4.reduce((a,p)=>a+c.kt[p],0);
+  let h='<tr class="hr"><td class="rl">名前・親</td>'+
+    p4.map((p,i)=>'<td><div style="font-size:9px;color:var(--dim)">'+pl[i]+'</div><div style="font-size:12px">'+players[p].name+'</div></td>').join('')+
+    '<td class="sc" style="background:var(--bg3);font-size:10px">計</td></tr>';
+  h+='<tr><td class="rl">着・P</td>'+
+    p4.map(p=>'<td class="inp" onclick="opP('cp','+p+')"><div class="rc"><span class="rnk">'+MK[c.cR[p]]+'</span><span class="'+fc(cP[p])+'">'+fm(cP[p])+'</span></div></td>').join('')+
+    '<td class="sc">'+fs(cpS)+'</td></tr>';
+  h+='<tr><td class="rl">試算</td>'+
+    p4.map(p=>'<td class="inp" onclick="opP('sz','+p+')"><span class="'+fc(sz[p])+'">'+fm(sz[p])+'</span></td>').join('')+
+    '<td class="sc">'+fs(szS)+'</td></tr>';
+  h+='<tr><td class="rl">結果</td>'+
+    p4.map(p=>'<td><div class="rc"><span class="rnk">'+MK[c.kR[p]]+'</span><span class="'+fc(c.kt[p])+'">'+fm(c.kt[p])+'</span></div></td>').join('')+
+    '<td class="sc">'+fs(ktS)+'</td></tr>';
+  h+='<tr><td class="rl" colspan="2" style="text-align:left;padding:4px 5px;font-size:10px">ツモ条件（素点のみ）</td>'+
+    '<td style="font-size:11px">対子<br>'+fs(c.ts.tk)+'</td>'+
+    '<td style="font-size:11px">対親<br>'+fs(c.ts.to)+'</td>'+
+    '<td style="font-size:11px">自親<br>'+fs(c.ts.jo)+'</td>'+
+    '<td class="sc"></td></tr>';
+  h+='<tr><td class="rl" colspan="2" style="text-align:left;padding:4px 5px;font-size:10px">ロン（素点のみ）</td>'+
+    '<td colspan="4">'+fs(c.ron)+'</td></tr>';
+  h+='<tr><td class="rl">トップ素点</td>'+
+    c.tps.map(v=>'<td><span class="'+fc(v)+'">'+fm(v)+'</span></td>').join('')+
+    '<td class="sc"></td></tr>';
+  h+='<tr><td colspan="6" class="sh">着落ち素点　※(▲0.1～▲16)=著落ち注意</td></tr>';
+  h+='<tr><td class="ml" style="background:var(--bg3)"></td>'+
+    pl.map(l=>'<td style="font-size:10px;color:var(--dim);background:var(--bg3)">'+l+'</td>').join('')+
+    '<td class="sc" style="background:var(--bg3)"></td></tr>';
   c.om.forEach((row,ri)=>{
-    h+=`<tr><td class="ml">${c.rl[ri]}<br><span style="font-size:9px;color:var(--dim)">${players[c.ro[ri]].name}</span></td>${row.map(v=>`<td style="font-size:11px"><span class="${fc(v)}">${fm(v)}</span></td>`).join('')}</tr>`;
+    const rp=c.ro[ri];
+    h+='<tr><td class="ml">'+c.rl[ri]+'<br><span style="font-size:9px;color:var(--dim)">'+players[rp].name+'</span></td>'+
+      row.map(v=>'<td style="font-size:11px">'+fmOchi(v)+'</td>').join('')+
+      '<td class="sc"></td></tr>';
   });
-  h+=`<tr><td colspan="5" class="sh">合計・差分（自 vs 相手）</td></tr>`;
-  [['合計 T1·2',c.gk],['繰差 K',c.kuK],['素差 S',c.soS],['順差 J',c.juJ]].forEach(([lbl,vals])=>{
-    h+=`<tr><td class="rl">${lbl}</td><td style="color:var(--dim);font-size:11px">－</td>${vals.map(v=>`<td><span class="${fc(v)}">${fm(v)}</span></td>`).join('')}</tr>`;
+  h+='<tr><td colspan="6" class="sh">合計・差分（自 vs 相手）</td></tr>';
+  [['合計 T1·2',c.gk],['繰差 K',c.kuK],['素差 S',c.soS],['順差 J',c.juJ]].forEach(function(pair){
+    const lbl=pair[0],vals=pair[1];
+    h+='<tr><td class="rl">'+lbl+'</td><td style="color:var(--dim);font-size:11px">―</td>'+
+      vals.map(v=>'<td><span class="'+fc(v)+'">'+fm(v)+'</span></td>').join('')+
+      '<td class="sc"></td></tr>';
   });
   document.getElementById('jt').innerHTML=h;
 }
-
-// ── キーパッド ──
 let ps={tgt:null,pi:null,str:'0',neg:false};
 function opP(tgt,pi){ps={tgt,pi,str:'0',neg:false};document.getElementById('pd').textContent='0';on('ov');on('pw');}
 function closePad(){off('ov');off('pw');ps.tgt=null;}
@@ -282,29 +279,32 @@ function pOK(){
   else if(ps.tgt==='sz')sz[i]=v;
   save();render();closePad();
 }
-
-// ── かなキーボード ──
 const KL=['あ','い','う','え','お','か','き','く','け','こ','さ','し','す','せ','そ','た','ち','つ','て','と','な','に','ぬ','ね','の','は','ひ','ふ','へ','ほ','ま','み','む','め','も','や','ゆ','よ','ら','り','る','れ','ろ','わ','を','ん','が','ぎ','ぐ','げ','ご','ざ','じ','ず','ぜ','ぞ','だ','ぢ','づ','で','ど','ば','び','ぶ','べ','ぼ','ぱ','ぴ','ぷ','ぺ','ぽ','ぁ','ぃ','ぅ','ぇ','ぉ','っ','ゃ','ゅ','ょ'];
 let ks={pi:null,str:''};
-function opK(pi){ks={pi,str:''};document.getElementById('kd').textContent='';document.getElementById('kg').innerHTML=KL.map(k=>`<button class="kb" onclick="kA('${k}')">${k}</button>`).join('');on('kov');on('kw');}
+function opK(pi){ks={pi,str:''};document.getElementById('kd').textContent='';document.getElementById('kg').innerHTML=KL.map(k=>'<button class="kb" onclick="kA(''+k+'')">'+k+'</button>').join('');on('kov');on('kw');}
 function closeKana(){off('kov');off('kw');}
 function kA(k){if(ks.str.length<3){ks.str+=k;document.getElementById('kd').textContent=ks.str;}}
 function kBs(){ks.str=ks.str.slice(0,-1);document.getElementById('kd').textContent=ks.str;}
 function kC(){ks.str='';document.getElementById('kd').textContent='';}
 function kOK(){if(ks.pi!==null&&ks.str.trim())players[ks.pi].name=ks.str;save();render();closeKana();}
-
-// ── スワップ ──
 let spi=null;
-function opSP(pi){spi=pi;const n=['自','左','対','右'];document.getElementById('spt').textContent=n[pi]+' を変更';document.getElementById('spg').innerHTML=players.map((p,i)=>`<button class="popbtn" onclick="doSP(${i})">${MK[i]}<br><span style="font-size:12px">${p.name}</span></button>`).join('');on('spp');}
+function opSP(posIdx){
+  spi=posIdx;
+  const pn=['自','左','対','右'];
+  document.getElementById('spt').textContent=pn[posIdx]+'の位置のプレイヤーを選択';
+  document.getElementById('spg').innerHTML=players.map((p,i)=>
+    '<button class="popbtn" onclick="doSP('+i+')">'+
+    '<span class="pop-mk">'+MK[i]+'</span>'+
+    '<span class="pop-nm">'+p.name+'</span></button>'
+  ).join('');
+  on('spp');
+}
 function closeSP(){off('spp');}
-function doSP(pi){const cp=pos.indexOf(pi),ca=pos[spi];pos[spi]=pi;if(cp!==-1)pos[cp]=ca;save();render();closeSP();}
-
-// ── 回転・AC ──
-function rotate(){const[j,h,t,m]=pos;pos=[m,j,h,t];save();render();}
+function doSP(playerIdx){const cp=pos.indexOf(playerIdx),ca=pos[spi];pos[spi]=playerIdx;if(cp!==-1)pos[cp]=ca;save();render();closeSP();}
+function rotate(){const j=pos[0],h=pos[1],t=pos[2],m=pos[3];pos=[m,j,h,t];save();render();}
 function showAC(){on('acd');}
 function closeAC(){off('acd');}
 function doAC(){players=[{name:'A',kuriP:0},{name:'B',kuriP:0},{name:'C',kuriP:0},{name:'D',kuriP:0}];pos=[0,1,2,3];cP=[0,0,0,0];sz=[0,0,0,0];save();render();closeAC();}
-
 function on(id){document.getElementById(id).classList.add('on');}
 function off(id){document.getElementById(id).classList.remove('on');}
 function render(){renderKuri();renderTri();renderJT();}
