@@ -2,603 +2,313 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>条件</title>
 <style>
+:root{--bg:#1a1a2e;--bg2:#16213e;--bg3:#0f3460;--text:#e0e0e0;--dim:#888;--acc:#7a7aff;--grn:#4caf50;--red:#e53935;--neg:#ff6b6b;--pos:#69db7c;--bdr:#333355;}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
-body{font-family:'Helvetica Neue',Arial,sans-serif;background:#1a1a2e;color:#e0e0e0;min-height:100vh;overflow-x:hidden;padding-bottom:20px;}
-h1{font-size:14px;letter-spacing:4px;color:#888;padding:8px 0 4px;text-align:center;}
-
-/* ===== 繰エリア ===== */
-.section{padding:3px 8px 5px;}
-.sec-title{font-size:11px;color:#888;letter-spacing:2px;margin-bottom:3px;}
-.dtable{width:100%;border-collapse:collapse;}
-.dtable td{border:1px solid #2a2a4a;padding:4px 4px;font-size:12px;}
-.nc{width:20px;height:20px;border-radius:50%;border:1.5px solid #444;font-size:10px;display:inline-flex;align-items:center;justify-content:center;color:#888;flex-shrink:0;}
-.nm{width:48px;color:#ccc;cursor:pointer;}
-.nm.sel{background:#2a2a5a;outline:2px solid #7a7aff;}
-.sc{color:#a0c4ff;cursor:pointer;text-align:right;min-width:64px;}
-.sc.sel{background:#2a2a5a;outline:2px solid #ffaa00;}
-.total-cell{color:#88ff88;text-align:right;min-width:64px;font-size:12px;}
-
-/* ===== 表示エリア ===== */
-.disp-wrap{width:100%;padding:4px 8px 2px;}
-
-.row-top{display:flex;justify-content:center;align-items:center;gap:6px;margin-bottom:4px;}
-
-.row-mid{display:flex;flex-direction:row;align-items:center;width:100%;margin-bottom:2px;}
-.mid-left{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;}
-.mid-center{width:110px;height:120px;flex-shrink:0;position:relative;}
-.mid-right{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;}
-
-.row-bottom{display:flex;justify-content:center;align-items:center;gap:6px;margin-bottom:4px;}
-
-.p-num{width:24px;height:24px;border-radius:50%;background:#2a2a4a;border:1.5px solid #555;font-size:12px;display:flex;align-items:center;justify-content:center;color:#aaa;cursor:pointer;flex-shrink:0;}
-.p-num.active{background:#3a3a6a;border-color:#7a7aff;}
-.p-name{font-size:13px;color:#ccc;}
-.p-score{border:1.5px solid #7a7aff;border-radius:6px;padding:2px 8px;font-size:14px;font-weight:bold;color:#a0c4ff;min-width:72px;text-align:center;}
-.p-view-name{font-size:18px;color:#7a7aff;font-weight:bold;}
-.p-view-label{font-size:10px;color:#555;}
-.p-inner{display:flex;align-items:center;gap:4px;}
-
-/* SVG */
-.arrow-svg{position:absolute;top:0;left:0;width:100%;height:100%;overflow:visible;}
-
-/* ボタン行 */
-.btn-row{display:flex;justify-content:space-between;padding:4px 12px 5px;}
-.ac-btn{background:#2a1a1a;border:1.5px solid #a04040;color:#e08080;font-size:14px;font-weight:bold;border-radius:8px;padding:7px 20px;cursor:pointer;}
-.rotate-btn{background:#1a2a1a;border:1.5px solid #407040;color:#80c080;font-size:14px;font-weight:bold;border-radius:8px;padding:7px 20px;cursor:pointer;}
-
-/* ===== 持差エリア ===== */
-.mochidiff-wrap{padding:3px 8px 5px;}
-.mochidiff-title{font-size:11px;color:#888;letter-spacing:2px;margin-bottom:3px;}
-.md-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto;gap:2px;width:100%;}
-.md-cell{border:1px solid #2a2a4a;padding:4px 6px;display:flex;align-items:center;gap:4px;min-height:44px;}
-.md-cell.tl{border:2px solid #7a7aff;}
-.md-num{width:22px;height:22px;border-radius:50%;border:1.5px solid #555;font-size:11px;display:flex;align-items:center;justify-content:center;color:#aaa;cursor:pointer;flex-shrink:0;}
-.md-num.sel-view{background:#3a3a6a;border-color:#7a7aff;}
-.md-name{font-size:12px;color:#ccc;flex:1;}
-.md-diff{font-size:13px;font-weight:bold;text-align:right;min-width:52px;}
-.md-diff.plus{color:#a0c4ff;}
-.md-diff.minus{color:#f08080;}
-
-/* キーパッド */
-.kp-ov{display:none;position:fixed;bottom:0;left:0;right:0;background:#0d0d1a;border-top:2px solid #333;padding:8px;z-index:100;}
-.kp-ov.on{display:block;}
-.kp-disp{background:#111;color:#a0c4ff;font-size:22px;text-align:right;padding:6px 14px;border-radius:6px;margin-bottom:8px;min-height:38px;}
-.kp-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
-.kb{background:#1e1e3a;border:1px solid #333;color:#e0e0e0;font-size:19px;padding:12px 0;border-radius:8px;cursor:pointer;text-align:center;user-select:none;}
-.kb:active{background:#2a2a5a;}
-.kb-m{color:#f08080;}.kb-c{color:#e0c080;}.kb-ok{background:#1a3a1a !important;border-color:#407040 !important;color:#80c080;font-weight:bold;}.kb-d{color:#c0a0e0;}
-
-/* 名前KB */
-.nk-ov{display:none;position:fixed;bottom:0;left:0;right:0;background:#0d0d1a;border-top:2px solid #333;padding:8px;z-index:100;}
-.nk-ov.on{display:block;}
-.nk-disp{background:#111;color:#e0e0ff;font-size:18px;text-align:center;padding:6px;border-radius:6px;margin-bottom:5px;min-height:36px;letter-spacing:2px;}
-.nk-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:3px;margin-bottom:4px;max-height:200px;overflow-y:auto;}
-.nkb{background:#1e1e3a;border:1px solid #333;color:#e0e0e0;font-size:13px;padding:8px 0;border-radius:5px;cursor:pointer;text-align:center;user-select:none;}
-.nkb:active{background:#2a2a5a;}
-.nk-ctrl{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;}
-.nkc{background:#1e1e3a;border:1px solid #333;color:#c0a0e0;font-size:14px;padding:9px 0;border-radius:6px;cursor:pointer;text-align:center;}
-.nkc.ok{background:#1a3a1a;border-color:#407040;color:#80c080;}
-
-/* 数字選択 */
-.np-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;align-items:center;justify-content:center;}
-.np-ov.on{display:flex;}
-.np-box{background:#1a1a2e;border:1px solid #444;border-radius:12px;padding:16px;display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.npb{background:#2a2a4a;border:1.5px solid #555;color:#e0e0e0;font-size:18px;padding:13px 26px;border-radius:8px;cursor:pointer;text-align:center;}
-.npb:active{background:#3a3a6a;}
-
-/* AC確認 */
-.ac-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:300;align-items:center;justify-content:center;}
-.ac-ov.on{display:flex;}
-.ac-box{background:#1a1a2e;border:1px solid #a04040;border-radius:12px;padding:24px;text-align:center;width:260px;}
-.ac-box p{color:#e0e0e0;margin-bottom:16px;font-size:15px;}
-.ac-btns{display:flex;gap:12px;justify-content:center;}
-.ac-yes{background:#3a1a1a;border:1.5px solid #a04040;color:#e08080;font-size:16px;padding:10px 28px;border-radius:8px;cursor:pointer;}
-.ac-no{background:#1e1e3a;border:1.5px solid #444;color:#ccc;font-size:16px;padding:10px 28px;border-radius:8px;cursor:pointer;}
+body{background:var(--bg);color:var(--text);font-family:'Helvetica Neue',sans-serif;font-size:14px;min-height:100vh;overflow-x:hidden;}
+h1{text-align:center;font-size:18px;padding:10px 0 6px;letter-spacing:2px;}
+.sec-lbl{font-size:11px;color:var(--dim);padding:4px 10px 2px;letter-spacing:1px;}
+.kuri-area{padding:0 8px 6px;}
+.kt{width:100%;border-collapse:collapse;table-layout:fixed;}
+.kt td{padding:4px 3px;border:1px solid var(--bdr);font-size:13px;text-align:center;vertical-align:middle;height:36px;}
+.kt .maru{width:26px;color:var(--acc);font-size:12px;}
+.kt .name{cursor:pointer;}
+.kt .val{cursor:pointer;min-width:52px;}
+.kt .lbl{font-size:11px;color:var(--dim);width:22px;}
+.kt .sum{color:var(--pos);font-size:13px;}
+.neg{color:var(--neg);}.pos{color:var(--pos);}.zer{color:var(--dim);}
+.display-area{padding:4px 10px 6px;}
+.tri-wrap{width:100%;display:flex;flex-direction:column;align-items:center;gap:2px;}
+.score-box{border:2px solid var(--acc);border-radius:6px;padding:3px 8px;text-align:center;min-width:80px;}
+.btn-row{display:flex;justify-content:space-between;padding:6px 8px 8px;gap:8px;}
+.btn-ac{background:var(--red);color:#fff;border:none;border-radius:8px;font-size:16px;font-weight:bold;padding:10px 0;flex:1;cursor:pointer;}
+.btn-kt{background:var(--grn);color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:bold;padding:10px 0;flex:1;cursor:pointer;}
+.jtsec{padding:0 8px 12px;}
+.jt{width:100%;border-collapse:collapse;table-layout:fixed;font-size:12px;}
+.jt td{border:1px solid var(--bdr);padding:3px 2px;text-align:center;vertical-align:middle;}
+.jt .rl{text-align:left;padding-left:5px;font-size:10px;color:var(--dim);width:54px;background:var(--bg2);}
+.jt .inp{cursor:pointer;}
+.jt .hr td{background:var(--bg3);font-size:11px;}
+.jt .hr .rl{background:var(--bg3);}
+.jt .rc{display:flex;flex-direction:column;align-items:center;line-height:1.3;}
+.jt .sh{background:#1a2040;font-size:10px;color:var(--dim);text-align:left;padding-left:6px;}
+.jt .ml{font-size:10px;color:var(--dim);background:var(--bg2);width:30px;}
+.rnk{font-size:11px;color:var(--acc);}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;display:none;}
+.overlay.on{display:block;}
+.padwrap{position:fixed;bottom:0;left:0;right:0;background:#222240;border-top:2px solid var(--acc);z-index:101;display:none;padding:8px;border-radius:16px 16px 0 0;}
+.padwrap.on{display:block;}
+.paddisp{background:var(--bg);border-radius:8px;padding:8px 12px;font-size:20px;text-align:right;min-height:40px;margin-bottom:8px;color:var(--text);border:1px solid var(--bdr);}
+.padgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;}
+.pb{background:var(--bg3);color:var(--text);border:none;border-radius:8px;font-size:16px;padding:12px 4px;cursor:pointer;}
+.pb.ok{background:var(--acc);color:#fff;font-weight:bold;}
+.pb.ng{background:#334;color:var(--neg);}
+.pb.cl{background:#334;color:var(--dim);}
+.kanawrap{position:fixed;bottom:0;left:0;right:0;background:#222240;border-top:2px solid var(--acc);z-index:101;display:none;padding:8px;border-radius:16px 16px 0 0;}
+.kanawrap.on{display:block;}
+.kanadisp{background:var(--bg);border-radius:8px;padding:8px 12px;font-size:20px;min-height:40px;margin-bottom:6px;color:var(--text);border:1px solid var(--bdr);}
+.kanagrid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:6px;max-height:200px;overflow-y:auto;}
+.kb{background:var(--bg3);color:var(--text);border:none;border-radius:6px;font-size:13px;padding:8px 2px;cursor:pointer;}
+.kana-act{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;}
+.kab{background:var(--bg2);color:var(--text);border:1px solid var(--bdr);border-radius:8px;font-size:14px;padding:10px;cursor:pointer;}
+.kab.ok{background:var(--acc);color:#fff;border-color:var(--acc);}
+.popup{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:200;display:none;align-items:center;justify-content:center;}
+.popup.on{display:flex;}
+.popup-in{background:#222240;border-radius:12px;padding:16px;min-width:200px;}
+.poptit{font-size:13px;color:var(--dim);text-align:center;margin-bottom:10px;}
+.popgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.popbtn{background:var(--bg3);color:var(--text);border:1px solid var(--bdr);border-radius:8px;font-size:18px;padding:14px;cursor:pointer;text-align:center;}
+.dlg{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:200;display:none;align-items:center;justify-content:center;}
+.dlg.on{display:flex;}
+.dlg-in{background:#222240;border-radius:12px;padding:20px 16px;min-width:240px;}
+.dlg-msg{text-align:center;margin-bottom:16px;font-size:14px;}
+.dlg-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.dlg-yes{background:var(--red);color:#fff;border:none;border-radius:8px;font-size:15px;padding:12px;cursor:pointer;}
+.dlg-no{background:var(--bg3);color:var(--text);border:1px solid var(--bdr);border-radius:8px;font-size:15px;padding:12px;cursor:pointer;}
 </style>
 </head>
 <body>
 <h1>条件</h1>
-
-<!-- ===== 繰エリア（一番上） ===== -->
-<div class="section">
-  <div class="sec-title">繰</div>
-  <table class="dtable">
-    <tr>
-      <td><span class="nc" id="kn0">①</span></td>
-      <td class="nm" id="kname0" onclick="openNK(0)">A</td>
-      <td class="sc" id="ks0" onclick="openKP('kuri',0)">+0.0</td>
-      <td><span class="nc" id="kn1">②</span></td>
-      <td class="nm" id="kname1" onclick="openNK(1)">B</td>
-      <td class="sc" id="ks1" onclick="openKP('kuri',1)">+0.0</td>
-      <td class="total-cell" style="text-align:center;color:#aaa;font-size:11px;">計</td>
-    </tr>
-    <tr>
-      <td><span class="nc" id="kn2">③</span></td>
-      <td class="nm" id="kname2" onclick="openNK(2)">C</td>
-      <td class="sc" id="ks2" onclick="openKP('kuri',2)">+0.0</td>
-      <td><span class="nc" id="kn3">④</span></td>
-      <td class="nm" id="kname3" onclick="openNK(3)">D</td>
-      <td class="sc" id="ks3" onclick="openKP('kuri',3)">+0.0</td>
-      <td class="total-cell" id="kuri-sum">+0.0</td>
-    </tr>
-  </table>
-</div>
-
-<!-- ===== 表示エリア ===== -->
-<div class="disp-wrap">
-  <!-- 上 -->
-  <div class="row-top">
-    <div class="p-num" id="num-top" onclick="openNP('top')">①</div>
-    <div class="p-name" id="name-top">A</div>
-    <div class="p-score" id="score-top">+0.0</div>
-  </div>
-  <!-- 中段 -->
-  <div class="row-mid">
-    <div class="mid-left">
-      <div class="p-inner">
-        <div class="p-num" id="num-left" onclick="openNP('left')">②</div>
-        <div class="p-name" id="name-left">B</div>
-      </div>
-      <div class="p-score" id="score-left">+0.0</div>
-    </div>
-    <div class="mid-center">
-      <svg class="arrow-svg" id="asvg" viewBox="0 0 110 120"></svg>
-    </div>
-    <div class="mid-right">
-      <div class="p-inner">
-        <div class="p-num" id="num-right" onclick="openNP('right')">④</div>
-        <div class="p-name" id="name-right">D</div>
-      </div>
-      <div class="p-score" id="score-right">+0.0</div>
-    </div>
-  </div>
-  <!-- 下（視点） -->
-  <div class="row-bottom">
-    <div class="p-num active" id="num-bottom" onclick="openNP('bottom')">③</div>
-    <div class="p-view-name" id="name-bottom">C</div>
-    <div class="p-view-label">視点</div>
-  </div>
-</div>
-
-<!-- ボタン行 -->
+<div class="sec-lbl">繰</div>
+<div class="kuri-area"><table class="kt" id="kt"></table></div>
+<div class="display-area" id="da"></div>
 <div class="btn-row">
-  <button class="ac-btn" onclick="openAC()">AC</button>
-  <button class="rotate-btn" onclick="rotate()">回転</button>
+  <button class="btn-ac" onclick="showAC()">AC</button>
+  <button class="btn-kt" onclick="rotate()">回転</button>
 </div>
+<div class="sec-lbl">条件</div>
+<div class="jtsec"><table class="jt" id="jt"></table></div>
 
-<!-- ===== 持エリア ===== -->
-<div class="section">
-  <div class="sec-title">持</div>
-  <table class="dtable">
-    <tr>
-      <td><span class="nc" id="mn0">①</span></td>
-      <td class="nm" id="mname0">A</td>
-      <td class="sc" id="ms0" onclick="openKP('mochi',0)">+25.0</td>
-      <td><span class="nc" id="mn1">②</span></td>
-      <td class="nm" id="mname1">B</td>
-      <td class="sc" id="ms1" onclick="openKP('mochi',1)">+25.0</td>
-      <td class="total-cell" style="text-align:center;color:#aaa;font-size:11px;">計</td>
-    </tr>
-    <tr>
-      <td><span class="nc" id="mn2">③</span></td>
-      <td class="nm" id="mname2">C</td>
-      <td class="sc" id="ms2" onclick="openKP('mochi',2)">+25.0</td>
-      <td><span class="nc" id="mn3">④</span></td>
-      <td class="nm" id="mname3">D</td>
-      <td class="sc" id="ms3" onclick="openKP('mochi',3)">+25.0</td>
-      <td class="total-cell" id="mochi-sum">+100.0</td>
-    </tr>
-  </table>
-</div>
-
-<!-- ===== 持差エリア ===== -->
-<div class="mochidiff-wrap">
-  <div class="mochidiff-title">持差</div>
-  <div class="md-grid">
-    <div class="md-cell tl" id="md-tl">
-      <div class="md-num sel-view" id="md-num-tl" onclick="openMDPicker()">③</div>
-      <div class="md-name" id="md-name-tl">C</div>
-      <div class="md-diff" id="md-diff-tl"></div>
-    </div>
-    <div class="md-cell" id="md-tr">
-      <div class="md-num" id="md-num-tr">①</div>
-      <div class="md-name" id="md-name-tr">A</div>
-      <div class="md-diff plus" id="md-diff-tr">+0.0</div>
-    </div>
-    <div class="md-cell" id="md-bl">
-      <div class="md-num" id="md-num-bl">②</div>
-      <div class="md-name" id="md-name-bl">B</div>
-      <div class="md-diff plus" id="md-diff-bl">+0.0</div>
-    </div>
-    <div class="md-cell" id="md-br">
-      <div class="md-num" id="md-num-br">④</div>
-      <div class="md-name" id="md-name-br">D</div>
-      <div class="md-diff plus" id="md-diff-br">+0.0</div>
-    </div>
+<div class="overlay" id="ov" onclick="closePad()"></div>
+<div class="padwrap" id="pw">
+  <div class="paddisp" id="pd">0</div>
+  <div class="padgrid">
+    <button class="pb ng" onclick="pNeg()">▲</button>
+    <button class="pb" onclick="pN('7')">7</button><button class="pb" onclick="pN('8')">8</button><button class="pb" onclick="pN('9')">9</button>
+    <button class="pb cl" onclick="pC()">C</button>
+    <button class="pb" onclick="pN('4')">4</button><button class="pb" onclick="pN('5')">5</button><button class="pb" onclick="pN('6')">6</button>
+    <button class="pb" onclick="pBs()">⌫</button>
+    <button class="pb" onclick="pN('1')">1</button><button class="pb" onclick="pN('2')">2</button><button class="pb" onclick="pN('3')">3</button>
+    <button class="pb" onclick="pDot()">.</button>
+    <button class="pb" onclick="pN('0')">0</button><button class="pb" onclick="pN('00')">00</button>
+    <button class="pb ok" onclick="pOK()">OK</button>
   </div>
 </div>
 
-<!-- キーパッド -->
-<div class="kp-ov" id="kp-ov">
-  <div class="kp-disp" id="kp-disp">0</div>
-  <div class="kp-grid">
-    <div class="kb kb-m" onclick="kpIn('▲')">▲</div>
-    <div class="kb" onclick="kpIn('7')">7</div>
-    <div class="kb" onclick="kpIn('8')">8</div>
-    <div class="kb" onclick="kpIn('9')">9</div>
-    <div class="kb kb-d" onclick="kpDel()">⌫</div>
-    <div class="kb" onclick="kpIn('4')">4</div>
-    <div class="kb" onclick="kpIn('5')">5</div>
-    <div class="kb" onclick="kpIn('6')">6</div>
-    <div class="kb kb-c" onclick="kpClr()">C</div>
-    <div class="kb" onclick="kpIn('1')">1</div>
-    <div class="kb" onclick="kpIn('2')">2</div>
-    <div class="kb" onclick="kpIn('3')">3</div>
-    <div class="kb" onclick="kpIn('.')">.</div>
-    <div class="kb" onclick="kpIn('0')">0</div>
-    <div class="kb" onclick="kpIn('00')">00</div>
-    <div class="kb kb-ok" onclick="kpOK()">OK</div>
+<div class="overlay" id="kov" onclick="closeKana()"></div>
+<div class="kanawrap" id="kw">
+  <div class="kanadisp" id="kd"></div>
+  <div class="kanagrid" id="kg"></div>
+  <div class="kana-act">
+    <button class="kab" onclick="kC()">C</button>
+    <button class="kab" onclick="kBs()">⌫</button>
+    <button class="kab ok" onclick="kOK()">OK</button>
   </div>
 </div>
 
-<!-- 名前KB -->
-<div class="nk-ov" id="nk-ov">
-  <div class="nk-disp" id="nk-disp"></div>
-  <div class="nk-grid" id="nk-grid"></div>
-  <div class="nk-ctrl">
-    <div class="nkc" onclick="nkDel()">⌫</div>
-    <div class="nkc" onclick="nkClr()">C</div>
-    <div class="nkc ok" onclick="nkOK()">OK</div>
+<div class="popup" id="spp" onclick="closeSP()">
+  <div class="popup-in" onclick="event.stopPropagation()">
+    <div class="poptit" id="spt"></div>
+    <div class="popgrid" id="spg"></div>
   </div>
 </div>
 
-<!-- 数字選択（表示エリア用） -->
-<div class="np-ov" id="np-ov" onclick="closeNP()">
-  <div class="np-box" onclick="event.stopPropagation()">
-    <div class="npb" onclick="selNum(1)">①</div>
-    <div class="npb" onclick="selNum(2)">②</div>
-    <div class="npb" onclick="selNum(3)">③</div>
-    <div class="npb" onclick="selNum(4)">④</div>
-  </div>
-</div>
-
-<!-- 持差視点選択 -->
-<div class="np-ov" id="md-np-ov" onclick="closeMDPicker()">
-  <div class="np-box" onclick="event.stopPropagation()">
-    <div class="npb" onclick="selMDView(1)">①</div>
-    <div class="npb" onclick="selMDView(2)">②</div>
-    <div class="npb" onclick="selMDView(3)">③</div>
-    <div class="npb" onclick="selMDView(4)">④</div>
-  </div>
-</div>
-
-<!-- AC確認 -->
-<div class="ac-ov" id="ac-ov">
-  <div class="ac-box">
-    <p>全データを消去しますか？</p>
-    <div class="ac-btns">
-      <button class="ac-yes" onclick="doAC()">YES</button>
-      <button class="ac-no" onclick="closeAC()">NO</button>
+<div class="dlg" id="acd">
+  <div class="dlg-in">
+    <div class="dlg-msg">全データを消去しますか？</div>
+    <div class="dlg-btns">
+      <button class="dlg-yes" onclick="doAC()">YES</button>
+      <button class="dlg-no" onclick="closeAC()">NO</button>
     </div>
   </div>
 </div>
 
 <script>
-// ===== 状態 =====
-let players=[
-  {name:'A',kuri:0,mochi:25},
-  {name:'B',kuri:0,mochi:25},
-  {name:'C',kuri:0,mochi:25},
-  {name:'D',kuri:0,mochi:25},
-];
-// positions[0]=top,[1]=left,[2]=right,[3]=bottom(視点)
-let pos=[0,1,3,2];
-let mdViewIdx=2; // 持差エリアの視点playerIndex
+const MK=['①','②','③','④'];
+const RP=[50,10,-10,-30];
+let players=[{name:'A',kuriP:0},{name:'B',kuriP:0},{name:'C',kuriP:0},{name:'D',kuriP:0}];
+let pos=[0,1,2,3];
+let cP=[0,0,0,0],sz=[0,0,0,0];
 
-let kpTgt=null, kpVal='';
-let nkTgt=null, nkCur='';
-let npPos=null;
-let selEl=null; // 現在選択中のDOM要素
+function save(){try{localStorage.setItem('jk3',JSON.stringify({players,pos,cP,sz}));}catch(e){}}
+function load(){try{const d=JSON.parse(localStorage.getItem('jk3'));if(!d)return;if(d.players)players=d.players;if(d.pos)pos=d.pos;if(d.cP)cP=d.cP;if(d.sz)sz=d.sz;}catch(e){}}
 
-// ===== localStorage =====
-function save(){
-  localStorage.setItem('jo_players',JSON.stringify(players));
-  localStorage.setItem('jo_pos',JSON.stringify(pos));
-  localStorage.setItem('jo_mdview',String(mdViewIdx));
-}
-function load(){
-  try{
-    let p=localStorage.getItem('jo_players');
-    let ps=localStorage.getItem('jo_pos');
-    let md=localStorage.getItem('jo_mdview');
-    if(p)players=JSON.parse(p);
-    if(ps)pos=JSON.parse(ps);
-    if(md)mdViewIdx=parseInt(md);
-  }catch(e){}
-}
-
-// ===== ユーティリティ =====
-const CI=['①','②','③','④'];
-function ci(n){return CI[n-1]||n;}
-function fmt(v){let n=parseFloat(v)||0;return(n<0?'▲':'+')+Math.abs(n).toFixed(1);}
-function tot(i){return players[i].kuri+players[i].mochi;}
-
-// ===== 選択ハイライト =====
-function clearSel(){
-  if(selEl){selEl.classList.remove('sel');selEl=null;}
-}
-function setSel(el){
-  clearSel();
-  if(el){el.classList.add('sel');selEl=el;}
-}
-
-// ===== 全更新 =====
-function updateAll(){
-  // 繰・持テーブル
-  for(let i=0;i<4;i++){
-    document.getElementById('kn'+i).textContent=ci(i+1);
-    document.getElementById('kname'+i).textContent=players[i].name;
-    document.getElementById('ks'+i).textContent=fmt(players[i].kuri);
-    document.getElementById('mn'+i).textContent=ci(i+1);
-    document.getElementById('mname'+i).textContent=players[i].name;
-    document.getElementById('ms'+i).textContent=fmt(players[i].mochi);
-  }
-  // 繰・持 4人合計
-  let kuriSum=players.reduce((a,p)=>a+p.kuri,0);
-  let mochiSum=players.reduce((a,p)=>a+p.mochi,0);
-  document.getElementById('kuri-sum').textContent=fmt(kuriSum);
-  document.getElementById('mochi-sum').textContent=fmt(mochiSum);
-  updateDisp();
-  updateMochiDiff();
-  save();
-}
-
-// ===== 表示エリア =====
-function updateDisp(){
-  const slots=['top','left','right','bottom'];
-  slots.forEach((s,i)=>{
-    let pi=pos[i];
-    document.getElementById('num-'+s).textContent=ci(pi+1);
-    document.getElementById('name-'+s).textContent=players[pi].name;
-  });
-  let vT=tot(pos[3]);
-  ['top','left','right'].forEach((s,i)=>{
-    let d=vT-tot(pos[i]);
-    document.getElementById('score-'+s).textContent=fmt(d);
-  });
-  // SVG矢印＋点差ラベル描画
-  let tv=tot(pos[0]),lv=tot(pos[1]),rv=tot(pos[2]);
-  drawArrows(tv,lv,rv);
-}
-
-function drawArrows(tv,lv,rv){
-  const svg=document.getElementById('asvg');
-  svg.innerHTML='';
-  const ns='http://www.w3.org/2000/svg';
-
-  // マーカー
-  let defs=document.createElementNS(ns,'defs');
-  let mk=document.createElementNS(ns,'marker');
-  mk.setAttribute('id','ar');mk.setAttribute('markerWidth','7');mk.setAttribute('markerHeight','7');
-  mk.setAttribute('refX','6');mk.setAttribute('refY','3.5');mk.setAttribute('orient','auto');
-  let mp=document.createElementNS(ns,'path');
-  mp.setAttribute('d','M0,0 L7,3.5 L0,7 Z');mp.setAttribute('fill','#7a7aff');
-  mk.appendChild(mp);defs.appendChild(mk);svg.appendChild(defs);
-
-  // viewBox="0 0 110 120"
-  // top=(55,5), left=(5,110), right=(105,110)
-  const P={top:[55,5],left:[5,110],right:[105,110]};
-  const pairs=[
-    {a:'top',b:'left',va:tv,vb:lv},
-    {a:'top',b:'right',va:tv,vb:rv},
-    {a:'left',b:'right',va:lv,vb:rv},
-  ];
-
-  pairs.forEach(({a,b,va,vb})=>{
-    let pa=P[a],pb=P[b];
-    let diff=Math.abs(va-vb).toFixed(1);
-
-    // 矢印
-    if(Math.abs(va-vb)>=0.05){
-      let f=va<vb?pa:pb, t=va<vb?pb:pa;
-      let dx=t[0]-f[0],dy=t[1]-f[1],len=Math.sqrt(dx*dx+dy*dy);
-      let ux=dx/len,uy=dy/len,mg=10;
-      let ln=document.createElementNS(ns,'line');
-      ln.setAttribute('x1',f[0]+ux*mg); ln.setAttribute('y1',f[1]+uy*mg);
-      ln.setAttribute('x2',t[0]-ux*13); ln.setAttribute('y2',t[1]-uy*13);
-      ln.setAttribute('stroke','#7a7aff');ln.setAttribute('stroke-width','2');
-      ln.setAttribute('marker-end','url(#ar)');
-      svg.appendChild(ln);
-    }
-
-    // 点差ラベル（矢印中間）
-    let mx=(pa[0]+pb[0])/2, my=(pa[1]+pb[1])/2;
-    let txt=document.createElementNS(ns,'text');
-    txt.setAttribute('x',mx);txt.setAttribute('y',my);
-    txt.setAttribute('text-anchor','middle');
-    txt.setAttribute('font-size','9');
-    txt.setAttribute('fill','#888888');
-    // 背景っぽく見せるためにstroke
-    txt.setAttribute('paint-order','stroke');
-    txt.setAttribute('stroke','#1a1a2e');
-    txt.setAttribute('stroke-width','3');
-    txt.textContent='('+diff+')';
-    svg.appendChild(txt);
+function rankOf(arr,i){return arr.filter(v=>v>arr[i]).length;}
+function calcJP(results){
+  return results.map((v,i)=>{
+    const ab=results.filter(x=>x>v).length,eq=results.filter(x=>x===v).length;
+    let s=0;for(let j=ab;j<ab+eq;j++)s+=RP[j];return s/eq;
   });
 }
+function flr(x,sig){return Math.floor(x/sig)*sig;}
+function sm(arr,n){return [...arr].sort((a,b)=>a-b)[n-1];}
 
-// 回転: 下→右,右→上,上→左,左→下
-function rotate(){
-  let [t,l,r,b]=pos;
-  pos=[r,t,b,l];
-  updateDisp();
-  save();
-}
-
-// ===== キーパッド =====
-function openKP(type,idx){
-  clearSel();
-  let elId=type==='kuri'?'ks'+idx:'ms'+idx;
-  setSel(document.getElementById(elId));
-  kpTgt={type,idx};
-  kpVal=''; // 常に0からスタート
-  document.getElementById('kp-disp').textContent='0';
-  document.getElementById('kp-ov').classList.add('on');
-}
-function kpIn(c){
-  if(c==='▲'){kpVal=kpVal.startsWith('▲')?kpVal.slice(1):'▲'+kpVal;}
-  else if(c==='.'){if(!kpVal.replace('▲','').includes('.'))kpVal+=c;}
-  else{
-    // 先頭0を削除
-    if(kpVal===''||kpVal==='0')kpVal=(c==='0'?'0':c);
-    else if(kpVal==='▲0')kpVal='▲'+(c==='0'?'0':c);
-    else kpVal+=c;
-  }
-  document.getElementById('kp-disp').textContent=kpVal||'0';
-}
-function kpDel(){kpVal=kpVal.slice(0,-1);document.getElementById('kp-disp').textContent=kpVal||'0';}
-function kpClr(){kpVal='';document.getElementById('kp-disp').textContent='0';}
-function kpOK(){
-  if(!kpTgt)return;
-  let neg=kpVal.startsWith('▲');
-  let num=parseFloat(kpVal.replace('▲',''))||0;
-  if(neg)num=-num;
-  if(kpTgt.type==='kuri')players[kpTgt.idx].kuri=num;
-  else players[kpTgt.idx].mochi=num;
-  document.getElementById('kp-ov').classList.remove('on');
-  clearSel();
-  kpTgt=null;kpVal='';
-  updateAll();
+function calc(){
+  const j=pos[0],h=pos[1],t=pos[2],m=pos[3],p4=[j,h,t,m];
+  const kt=players.map((_,i)=>cP[i]+sz[i]);
+  const cR=players.map((_,i)=>rankOf(cP,i));
+  const kR=players.map((_,i)=>rankOf(kt,i));
+  const jp=calcJP(kt);
+  const kuK=[h,t,m].map(o=>players[j].kuriP-players[o].kuriP);
+  const soS=[h,t,m].map(o=>kt[j]-kt[o]);
+  const juJ=[h,t,m].map(o=>jp[j]-jp[o]);
+  const gk=[0,1,2].map(i=>kuK[i]+soS[i]+juJ[i]);
+  const s2=sm(gk,2);
+  const ts={tk:flr((s2-.1)/5,.1),to:flr((s2-.1)/6,.1),jo:flr((s2-.1)/4,.1)};
+  const ron=sm(gk,1);
+  const mx=Math.max(...kt);
+  const tps=p4.map(p=>kt[p]-mx);
+  const ro=[t,h,m,j],rl=['対','左','右','自'];
+  const om=ro.map(rp=>p4.map(cp=>kt[cp]-kt[rp]));
+  return{kt,cR,kR,jp,kuK,soS,juJ,gk,ts,ron,tps,om,ro,rl,p4};
 }
 
-// ===== 名前KB =====
-const KANA_ROWS=[
-  ['あ','い','う','え','お'],
-  ['か','き','く','け','こ'],
-  ['さ','し','す','せ','そ'],
-  ['た','ち','つ','て','と'],
-  ['な','に','ぬ','ね','の'],
-  ['は','ひ','ふ','へ','ほ'],
-  ['ま','み','む','め','も'],
-  ['や','ゆ','よ','ら','り'],
-  ['る','れ','ろ','わ','を'],
-  ['ん','ー','！','？','　'],
-  // 濁音
-  ['が','ぎ','ぐ','げ','ご'],
-  ['ざ','じ','ず','ぜ','ぞ'],
-  ['だ','ぢ','づ','で','ど'],
-  ['ば','び','ぶ','べ','ぼ'],
-  // 半濁音
-  ['ぱ','ぴ','ぷ','ぺ','ぽ'],
-  // 小文字
-  ['ぁ','ぃ','ぅ','ぇ','ぉ'],
-  ['っ','ゃ','ゅ','ょ','・'],
-];
-function buildNK(){
-  let g=document.getElementById('nk-grid');g.innerHTML='';
-  KANA_ROWS.forEach(row=>{
-    row.forEach(k=>{
-      let d=document.createElement('div');d.className='nkb';
-      d.textContent=k==='　'?'空白':k;
-      d.onclick=()=>{
-        let c=k==='　'?' ':k;
-        if(nkCur.replace(/ /g,'').length<3||(nkCur.length<3)){
-          nkCur+=c;
-          document.getElementById('nk-disp').textContent=nkCur;
-        }
-      };
-      g.appendChild(d);
-    });
+function fm(v,d=1){if(isNaN(v)||v===null)return'－';const a=Math.abs(v).toFixed(d);return v<-1e-5?'▲'+a:'+'+a;}
+function fc(v){return v<-1e-5?'neg':v>1e-5?'pos':'zer';}
+function fs(v,d=1){return`<span class="${fc(v)}">${fm(v,d)}</span>`;}
+
+function renderKuri(){
+  const ksum=players.reduce((a,p)=>a+p.kuriP,0);
+  document.getElementById('kt').innerHTML=`
+  <tr>
+    <td class="maru">${MK[0]}</td><td class="name" onclick="opK(0)">${players[0].name}</td>
+    <td class="val" onclick="opP('kp',0)">${fs(players[0].kuriP)}</td>
+    <td class="maru">${MK[1]}</td><td class="name" onclick="opK(1)">${players[1].name}</td>
+    <td class="val" onclick="opP('kp',1)">${fs(players[1].kuriP)}</td>
+    <td class="lbl">計</td>
+  </tr><tr>
+    <td class="maru">${MK[2]}</td><td class="name" onclick="opK(2)">${players[2].name}</td>
+    <td class="val" onclick="opP('kp',2)">${fs(players[2].kuriP)}</td>
+    <td class="maru">${MK[3]}</td><td class="name" onclick="opK(3)">${players[3].name}</td>
+    <td class="val" onclick="opP('kp',3)">${fs(players[3].kuriP)}</td>
+    <td class="sum">${fs(ksum)}</td>
+  </tr>`;
+}
+
+function renderTri(){
+  const j=pos[0],h=pos[1],t=pos[2],m=pos[3];
+  const kv=players.map(p=>p.kuriP);
+  const kd=o=>players[j].kuriP-players[o].kuriP;
+  const ca=(a,b)=>Math.abs(players[a].kuriP-players[b].kuriP).toFixed(1);
+  const kr=p=>MK[rankOf(kv,p)];
+  document.getElementById('da').innerHTML=`
+  <div class="tri-wrap" style="padding:8px 4px">
+    <div style="display:flex;align-items:center;justify-content:center;gap:6px">
+      <div style="display:flex;flex-direction:column;align-items:center">
+        <div style="display:flex;align-items:center;gap:5px;margin-bottom:3px">
+          <span style="font-size:14px;color:var(--acc);cursor:pointer" onclick="opSP(2)">${MK[t]}</span>
+          <span style="font-size:14px">${players[t].name}</span>
+        </div>
+        <div class="score-box"><span style="font-size:11px;color:var(--dim);margin-right:4px">${kr(t)}</span>${fs(kd(t))}</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:space-between;width:100%;padding:0 4px;position:relative;height:80px">
+      <div style="display:flex;flex-direction:column;align-items:center">
+        <div style="display:flex;align-items:center;gap:4px;margin-bottom:3px">
+          <span style="font-size:14px;color:var(--acc);cursor:pointer" onclick="opSP(1)">${MK[h]}</span>
+          <span style="font-size:14px">${players[h].name}</span>
+        </div>
+        <div class="score-box">${fs(kd(h))}</div>
+      </div>
+      <svg viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg" style="position:absolute;top:0;left:0;width:100%;height:80px;pointer-events:none">
+        <defs><marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#7a7aff"/></marker></defs>
+        ${arw(t,h,100,5,30,42,ca(t,h),62,18)}
+        ${arw(t,m,100,5,170,42,ca(t,m),143,18)}
+        ${arw(h,m,30,42,170,42,ca(h,m),100,36)}
+      </svg>
+      <div style="display:flex;flex-direction:column;align-items:center">
+        <div style="display:flex;align-items:center;gap:4px;margin-bottom:3px">
+          <span style="font-size:14px;color:var(--acc);cursor:pointer" onclick="opSP(3)">${MK[m]}</span>
+          <span style="font-size:14px">${players[m].name}</span>
+        </div>
+        <div class="score-box">${fs(kd(m))}</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:center;gap:6px;padding-bottom:2px">
+      <span style="font-size:16px;color:var(--acc);cursor:pointer" onclick="opSP(0)">${MK[j]}</span>
+      <span style="font-size:16px;font-weight:bold">${players[j].name}</span>
+      <span style="font-size:10px;color:var(--dim)">視点</span>
+    </div>
+  </div>`;
+}
+function arw(fp,tp,x1,y1,x2,y2,lbl,lx,ly){
+  const a=players[fp].kuriP,b=players[tp].kuriP;
+  if(Math.abs(a-b)<.001)return'';
+  let ax1=x1,ay1=y1,ax2=x2,ay2=y2;
+  if(a>b){ax1=x2;ay1=y2;ax2=x1;ay2=y1;}
+  const dx=ax2-ax1,dy=ay2-ay1,l=Math.sqrt(dx*dx+dy*dy)||1,nx=dx/l,ny=dy/l;
+  return`<line x1="${(ax1+nx*16).toFixed(1)}" y1="${(ay1+ny*16).toFixed(1)}" x2="${(ax2-nx*16).toFixed(1)}" y2="${(ay2-ny*16).toFixed(1)}" stroke="#7a7aff" stroke-width="1.5" marker-end="url(#ar)"/><text x="${lx}" y="${ly}" fill="#aaa" font-size="9" text-anchor="middle">(${lbl})</text>`;
+}
+
+function renderJT(){
+  const c=calc(),p4=c.p4,pl=['自','左','対','右'];
+  let h=`<tr class="hr"><td class="rl">名前・親</td>${p4.map((p,i)=>`<td><div style="font-size:9px;color:var(--dim)">${pl[i]}</div><div style="font-size:12px">${players[p].name}</div></td>`).join('')}</tr>`;
+  h+=`<tr><td class="rl">着・P</td>${p4.map(p=>`<td class="inp" onclick="opP('cp',${p})"><div class="rc"><span class="rnk">${MK[c.cR[p]]}</span><span class="${fc(cP[p])}">${fm(cP[p])}</span></div></td>`).join('')}</tr>`;
+  h+=`<tr><td class="rl">試算</td>${p4.map(p=>`<td class="inp" onclick="opP('sz',${p})"><span class="${fc(sz[p])}">${fm(sz[p])}</span></td>`).join('')}</tr>`;
+  h+=`<tr><td class="rl">結果</td>${p4.map(p=>`<td><div class="rc"><span class="rnk">${MK[c.kR[p]]}</span><span class="${fc(c.kt[p])}">${fm(c.kt[p])}</span></div></td>`).join('')}</tr>`;
+  h+=`<tr><td class="rl">ツモ条件</td><td colspan="4" style="text-align:left;padding:4px 5px;font-size:11px">対子&nbsp;${fs(c.ts.tk)}&nbsp;&nbsp;対親&nbsp;${fs(c.ts.to)}&nbsp;&nbsp;自親&nbsp;${fs(c.ts.jo)}</td></tr>`;
+  h+=`<tr><td class="rl">ロン</td><td colspan="4">${fs(c.ron)}</td></tr>`;
+  h+=`<tr><td class="rl">トップ素点</td>${c.tps.map(v=>`<td><span class="${fc(v)}">${fm(v)}</span></td>`).join('')}</tr>`;
+  h+=`<tr><td colspan="5" class="sh">着落ち素点</td></tr>`;
+  h+=`<tr><td class="ml" style="background:var(--bg3)"></td>${pl.map(l=>`<td style="font-size:10px;color:var(--dim);background:var(--bg3)">${l}</td>`).join('')}</tr>`;
+  c.om.forEach((row,ri)=>{
+    h+=`<tr><td class="ml">${c.rl[ri]}<br><span style="font-size:9px;color:var(--dim)">${players[c.ro[ri]].name}</span></td>${row.map(v=>`<td style="font-size:11px"><span class="${fc(v)}">${fm(v)}</span></td>`).join('')}</tr>`;
   });
-}
-function openNK(idx){
-  clearSel();
-  setSel(document.getElementById('kname'+idx));
-  nkTgt=idx;nkCur='';// 常に空からスタート
-  document.getElementById('nk-disp').textContent='';
-  buildNK();
-  document.getElementById('nk-ov').classList.add('on');
-}
-function nkDel(){nkCur=nkCur.slice(0,-1);document.getElementById('nk-disp').textContent=nkCur;}
-function nkClr(){nkCur='';document.getElementById('nk-disp').textContent='';}
-function nkOK(){
-  if(nkTgt===null)return;
-  if(nkCur.trim())players[nkTgt].name=nkCur.trim();
-  document.getElementById('nk-ov').classList.remove('on');
-  clearSel();
-  nkTgt=null;updateAll();
-}
-
-// ===== 数字選択（表示エリア） =====
-function openNP(p){npPos=p;document.getElementById('np-ov').classList.add('on');}
-function closeNP(){document.getElementById('np-ov').classList.remove('on');npPos=null;}
-function selNum(n){
-  if(!npPos)return;
-  let pi={top:0,left:1,right:2,bottom:3}[npPos];
-  let newPi=n-1,oldPi=pos[pi];
-  let si=pos.indexOf(newPi);
-  if(si>=0)pos[si]=oldPi;
-  pos[pi]=newPi;
-  closeNP();updateDisp();save();
-}
-
-// ===== 持差エリア =====
-function updateMochiDiff(){
-  let vIdx=mdViewIdx;
-  let vM=players[vIdx].mochi;
-
-  // 視点セル
-  document.getElementById('md-num-tl').textContent=ci(vIdx+1);
-  document.getElementById('md-name-tl').textContent=players[vIdx].name;
-
-  // 残り3名を持P降順でソート
-  let others=[0,1,2,3].filter(i=>i!==vIdx);
-  others.sort((a,b)=>players[b].mochi-players[a].mochi);
-
-  const slots=['tr','bl','br'];
-  slots.forEach((s,i)=>{
-    let pi=others[i];
-    let diff=vM-players[pi].mochi;
-    let dEl=document.getElementById('md-diff-'+s);
-    document.getElementById('md-num-'+s).textContent=ci(pi+1);
-    document.getElementById('md-name-'+s).textContent=players[pi].name;
-    dEl.textContent=fmt(diff);
-    dEl.className='md-diff '+(diff>=0?'plus':'minus');
+  h+=`<tr><td colspan="5" class="sh">合計・差分（自 vs 相手）</td></tr>`;
+  [['合計 T1·2',c.gk],['繰差 K',c.kuK],['素差 S',c.soS],['順差 J',c.juJ]].forEach(([lbl,vals])=>{
+    h+=`<tr><td class="rl">${lbl}</td><td style="color:var(--dim);font-size:11px">－</td>${vals.map(v=>`<td><span class="${fc(v)}">${fm(v)}</span></td>`).join('')}</tr>`;
   });
-}
-function openMDPicker(){document.getElementById('md-np-ov').classList.add('on');}
-function closeMDPicker(){document.getElementById('md-np-ov').classList.remove('on');}
-function selMDView(n){
-  mdViewIdx=n-1;
-  closeMDPicker();
-  updateMochiDiff();
-  save();
+  document.getElementById('jt').innerHTML=h;
 }
 
-// ===== AC =====
-function openAC(){document.getElementById('ac-ov').classList.add('on');}
-function closeAC(){document.getElementById('ac-ov').classList.remove('on');}
-function doAC(){
-  players=[
-    {name:'A',kuri:0,mochi:25},
-    {name:'B',kuri:0,mochi:25},
-    {name:'C',kuri:0,mochi:25},
-    {name:'D',kuri:0,mochi:25},
-  ];
-  pos=[0,1,3,2];
-  mdViewIdx=2;
-  closeAC();
-  clearSel();
-  updateAll();
+// ── キーパッド ──
+let ps={tgt:null,pi:null,str:'0',neg:false};
+function opP(tgt,pi){ps={tgt,pi,str:'0',neg:false};document.getElementById('pd').textContent='0';on('ov');on('pw');}
+function closePad(){off('ov');off('pw');ps.tgt=null;}
+function upd(){document.getElementById('pd').textContent=(ps.neg?'▲':'')+ps.str;}
+function pN(n){if(ps.str==='0'&&n!=='.')ps.str=n;else if(ps.str.length<8)ps.str+=n;upd();}
+function pNeg(){ps.neg=!ps.neg;upd();}
+function pDot(){if(!ps.str.includes('.')){ps.str+='.';upd();}}
+function pBs(){ps.str=ps.str.length>1?ps.str.slice(0,-1):'0';upd();}
+function pC(){ps.str='0';ps.neg=false;upd();}
+function pOK(){
+  if(!ps.tgt)return;
+  let v=parseFloat(ps.str)||0;if(ps.neg)v=-v;
+  const i=ps.pi;
+  if(ps.tgt==='kp')players[i].kuriP=v;
+  else if(ps.tgt==='cp')cP[i]=v;
+  else if(ps.tgt==='sz')sz[i]=v;
+  save();render();closePad();
 }
 
-// ===== 初期化 =====
-load();
-buildNK();
-updateAll();
+// ── かなキーボード ──
+const KL=['あ','い','う','え','お','か','き','く','け','こ','さ','し','す','せ','そ','た','ち','つ','て','と','な','に','ぬ','ね','の','は','ひ','ふ','へ','ほ','ま','み','む','め','も','や','ゆ','よ','ら','り','る','れ','ろ','わ','を','ん','が','ぎ','ぐ','げ','ご','ざ','じ','ず','ぜ','ぞ','だ','ぢ','づ','で','ど','ば','び','ぶ','べ','ぼ','ぱ','ぴ','ぷ','ぺ','ぽ','ぁ','ぃ','ぅ','ぇ','ぉ','っ','ゃ','ゅ','ょ'];
+let ks={pi:null,str:''};
+function opK(pi){ks={pi,str:''};document.getElementById('kd').textContent='';document.getElementById('kg').innerHTML=KL.map(k=>`<button class="kb" onclick="kA('${k}')">${k}</button>`).join('');on('kov');on('kw');}
+function closeKana(){off('kov');off('kw');}
+function kA(k){if(ks.str.length<3){ks.str+=k;document.getElementById('kd').textContent=ks.str;}}
+function kBs(){ks.str=ks.str.slice(0,-1);document.getElementById('kd').textContent=ks.str;}
+function kC(){ks.str='';document.getElementById('kd').textContent='';}
+function kOK(){if(ks.pi!==null&&ks.str.trim())players[ks.pi].name=ks.str;save();render();closeKana();}
+
+// ── スワップ ──
+let spi=null;
+function opSP(pi){spi=pi;const n=['自','左','対','右'];document.getElementById('spt').textContent=n[pi]+' を変更';document.getElementById('spg').innerHTML=players.map((p,i)=>`<button class="popbtn" onclick="doSP(${i})">${MK[i]}<br><span style="font-size:12px">${p.name}</span></button>`).join('');on('spp');}
+function closeSP(){off('spp');}
+function doSP(pi){const cp=pos.indexOf(pi),ca=pos[spi];pos[spi]=pi;if(cp!==-1)pos[cp]=ca;save();render();closeSP();}
+
+// ── 回転・AC ──
+function rotate(){const[j,h,t,m]=pos;pos=[m,j,h,t];save();render();}
+function showAC(){on('acd');}
+function closeAC(){off('acd');}
+function doAC(){players=[{name:'A',kuriP:0},{name:'B',kuriP:0},{name:'C',kuriP:0},{name:'D',kuriP:0}];pos=[0,1,2,3];cP=[0,0,0,0];sz=[0,0,0,0];save();render();closeAC();}
+
+function on(id){document.getElementById(id).classList.add('on');}
+function off(id){document.getElementById(id).classList.remove('on');}
+function render(){renderKuri();renderTri();renderJT();}
+load();render();
 </script>
 </body>
 </html>
