@@ -211,13 +211,11 @@ function renderTri(){
   const sb=(p,val)=>'<div class="score-box"><span style="font-size:11px;color:var(--dim);margin-right:3px">'+kr(p)+'</span>'+fs(val)+'</div>';
   document.getElementById("da").innerHTML=
   '<div style="width:100%;display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 4px">'
-  // --- 上(対) ---
   +'<div style="display:flex;flex-direction:column;align-items:center">'
   +'<div style="display:flex;align-items:center;gap:5px;margin-bottom:3px">'
   +mkB(t,2)+'<span style="font-size:14px">'+players[t].name+'</span></div>'
   +sb(t,kd(t))
   +'</div>'
-  // --- 中段: 左div・SVG・右div を兄弟要素として並べる ---
   +'<div style="display:flex;align-items:center;justify-content:space-between;width:100%;padding:0 4px;position:relative;height:80px">'
   +'<div style="display:flex;flex-direction:column;align-items:center">'
   +'<div style="display:flex;align-items:center;gap:4px;margin-bottom:3px">'
@@ -234,13 +232,9 @@ function renderTri(){
   +sb(m,kd(m))
   +'</div>'
   +'</div>'
-  // --- 下(自/視点) ---
-  +'<div style="display:flex;flex-direction:column;align-items:center;gap:3px;padding-bottom:2px">'
-  +'<div style="display:flex;align-items:center;gap:6px">'
+  +'<div style="display:flex;align-items:center;gap:6px;padding-bottom:2px">'
   +mkB(j,0)+'<span style="font-size:16px;font-weight:bold">'+players[j].name+'</span>'
   +'<span style="font-size:10px;color:var(--dim)">視点</span></div>'
-  +sb(j,players[j].kuriP)
-  +'</div>'
   +'</div>';
 }
 function arw(fp,tp,x1,y1,x2,y2,lbl,lx,ly){
@@ -280,7 +274,7 @@ function renderJT(){
   h+='<tr><td class="rl">トップ素点</td>'
     +c.tps.map(v=>'<td><span class="'+fc(v)+'">'+fm(v)+'</span></td>').join("")
     +'<td class="sc"></td></tr>';
-  h+='<tr><td colspan="6" class="sh">着落ち素点　※(▲0.1～▲16)=着落ち注意</td></tr>';
+  h+='<tr><td colspan="6" class="sh">着落ち素点　※(▲0.1～▲16)=着落ちターゲット</td></tr>';
   h+='<tr><td class="ml" style="background:var(--bg3)"></td>'
     +pl.map(l=>'<td style="font-size:10px;color:var(--dim);background:var(--bg3)">'+l+'</td>').join("")
     +'<td class="sc" style="background:var(--bg3)"></td></tr>';
