@@ -36,7 +36,7 @@ h1{text-align:center;font-size:18px;padding:10px 0 6px;letter-spacing:2px;}
 .jt .rc{display:flex;flex-direction:column;align-items:center;line-height:1.3;}
 .jt .sh{background:#1a2040;font-size:10px;color:var(--dim);text-align:left;padding-left:6px;}
 .jt .ml{font-size:10px;color:var(--dim);background:var(--bg2);width:30px;}
-.rnk{font-size:11px;color:var(--acc);}
+.rnk{font-size:9px;color:var(--acc);}
 .paren{color:#f0c040;}
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;display:none;}
 .overlay.on{display:block;}
@@ -252,17 +252,17 @@ function renderJT(){
   const cpS=p4.reduce((a,p)=>a+cP[p],0);
   const szS=p4.reduce((a,p)=>a+sz[p],0);
   const ktS=p4.reduce((a,p)=>a+c.kt[p],0);
-  let h='<tr class="hr"><td class="rl">名前・親</td>'
-    +p4.map((p,i)=>'<td><div style="font-size:9px;color:var(--dim)">'+pl[i]+'</div><div style="font-size:12px">'+players[p].name+'</div></td>').join("")
+  let h='<tr class="hr"><td class="rl">名前</td>'
+    +p4.map((p,i)=>'<td><div style="font-size:9px;color:var(--dim)">'+pl[i]+'</div><div style="font-size:12px"><span style="color:var(--acc)">'+MK[p]+'</span>'+players[p].name+'</div></td>').join("")
     +'<td class="sc" style="background:var(--bg3);font-size:10px">計</td></tr>';
   h+='<tr><td class="rl">着・P</td>'
-    +p4.map(p=>'<td class="inp" onclick="opCp('+p+')"><div class="rc"><span class="rnk">'+MK[c.cR[p]]+'</span><span class="'+fc(cP[p])+'">'+fm(cP[p])+'</span></div></td>').join("")
+    +p4.map(p=>'<td class="inp" onclick="opCp('+p+')"><div class="rc"><span class="rnk">'+(c.cR[p]+1)+'位</span><span class="'+fc(cP[p])+'">'+fm(cP[p])+'</span></div></td>').join("")
     +'<td class="sc">'+fs(cpS)+'</td></tr>';
   h+='<tr><td class="rl">試算</td>'
     +p4.map(p=>'<td class="inp" onclick="opSz('+p+')"><span class="'+fc(sz[p])+'">'+fm(sz[p])+'</span></td>').join("")
     +'<td class="sc">'+fs(szS)+'</td></tr>';
   h+='<tr><td class="rl">結果</td>'
-    +p4.map(p=>'<td><div class="rc"><span class="rnk">'+MK[c.kR[p]]+'</span><span class="'+fc(c.kt[p])+'">'+fm(c.kt[p])+'</span></div></td>').join("")
+    +p4.map(p=>'<td><div class="rc"><span class="rnk">'+(c.kR[p]+1)+'位</span><span class="'+fc(c.kt[p])+'">'+fm(c.kt[p])+'</span></div></td>').join("")
     +'<td class="sc">'+fs(ktS)+'</td></tr>';
   h+='<tr><td class="rl" colspan="2" style="text-align:left;padding:4px 5px;font-size:10px">ツモ条件（素点のみ）</td>'
     +'<td style="font-size:11px">対子<br>'+fs(c.ts.tk)+'</td>'
@@ -276,11 +276,11 @@ function renderJT(){
     +'<td class="sc"></td></tr>';
   h+='<tr><td colspan="6" class="sh">着落ち素点　※(▲0.1～▲16)=着落ちターゲット</td></tr>';
   h+='<tr><td class="ml" style="background:var(--bg3)"></td>'
-    +pl.map(l=>'<td style="font-size:10px;color:var(--dim);background:var(--bg3)">'+l+'</td>').join("")
+    +p4.map((p,i)=>'<td style="font-size:10px;background:var(--bg3)"><span style="color:var(--acc)">'+MK[p]+'</span><span style="color:var(--dim)">'+pl[i]+'</span></td>').join("")
     +'<td class="sc" style="background:var(--bg3)"></td></tr>';
   c.om.forEach((row,ri)=>{
     const rp=c.ro[ri];
-    h+='<tr><td class="ml">'+c.rl[ri]+'<br><span style="font-size:9px;color:var(--dim)">'+players[rp].name+'</span></td>'
+    h+='<tr><td class="ml">'+c.rl[ri]+' <span style="color:var(--acc)">'+MK[rp]+'</span><br><span style="font-size:9px;color:var(--dim)">'+players[rp].name+'</span></td>'
       +row.map(v=>'<td style="font-size:11px">'+fmOchi(v)+'</td>').join("")
       +'<td class="sc"></td></tr>';
   });
