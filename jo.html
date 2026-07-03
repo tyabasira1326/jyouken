@@ -154,6 +154,7 @@ function calc(){
   const soS=[h,t,m].map(o=>kt[j]-kt[o]);
   const juJ=[h,t,m].map(o=>jp[j]-jp[o]);
   const gk=[0,1,2].map(i=>kuK[i]+soS[i]+juJ[i]);
+  const revP=[h,t,m].map(o=>(players[j].kuriP-players[o].kuriP)+cP[j]-cP[o]);
   const s2=sm(gk,2);
   const ts={tk:flr((s2-.1)/5,.1),to:flr((s2-.1)/6,.1),jo:flr((s2-.1)/4,.1)};
   const ron=sm(gk,1);
@@ -161,7 +162,7 @@ function calc(){
   const tps=p4.map(p=>kt[p]-mx);
   const ro=[t,h,m,j],rl=["対","左","右","自"];
   const om=ro.map(rp=>p4.map(cp=>kt[cp]-kt[rp]));
-  return{kt,cR,kR,jp,kuK,soS,juJ,gk,ts,ron,tps,om,ro,rl,p4};
+  return{kt,cR,kR,jp,kuK,soS,juJ,gk,revP,ts,ron,tps,om,ro,rl,p4};
 }
 
 function fm(v,d=1){if(isNaN(v)||v===null)return"―";const a=Math.abs(v).toFixed(d);return v<-1e-5?"▲"+a:"+"+a;}
@@ -264,6 +265,9 @@ function renderJT(){
   h+='<tr><td class="rl">結果</td>'
     +p4.map(p=>'<td><div class="rc"><span class="rnk">'+(c.kR[p]+1)+'位</span><span class="'+fc(c.kt[p])+'">'+fm(c.kt[p])+'</span></div></td>').join("")
     +'<td class="sc">'+fs(ktS)+'</td></tr>';
+  h+='<tr><td class="rl" colspan="2" style="text-align:left;padding:4px 5px;font-size:10px">逆転P（順位点＋素点加算）</td>'
+    +c.revP.map(v=>'<td>'+fs(v)+'</td>').join("")
+    +'<td class="sc"></td></tr>';
   h+='<tr><td class="rl" colspan="2" style="text-align:left;padding:4px 5px;font-size:10px">ツモ条件（素点のみ）</td>'
     +'<td style="font-size:11px">対子<br>'+fs(c.ts.tk)+'</td>'
     +'<td style="font-size:11px">対親<br>'+fs(c.ts.to)+'</td>'
